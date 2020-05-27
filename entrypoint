@@ -1,0 +1,7 @@
+/wait
+cd atopa && \
+python3 manage.py makemigrations && \
+python3 manage.py migrate
+mysql -u root -h db -p --default-character-set=utf8 atopa_app < /atopa/mysqldumps/startDB.sql &&
+gunicorn --workers 3 --user www-data --bind 0.0.0.0:8010 mysite.wsgi:application &
+/usr/sbin/nginx -g "daemon off;"

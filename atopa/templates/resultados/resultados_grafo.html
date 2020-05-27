@@ -1,0 +1,483 @@
+{% extends "../base.html" %}
+{% load octicons %}
+{% load i18n %}
+{% load django_bootstrap_breadcrumbs %}
+{% block content %}
+    {% block breadcrumbs %}
+        {{ block.super }}
+        {% breadcrumb "Home" "home" %}
+        {% breadcrumb "Menú" "menu" year%}
+        {% breadcrumb "Cuestionarios" "testlist" year%}
+        {% breadcrumb "Resultados" "resultados" %}
+    {% endblock %}
+<div class="container">
+    <div class="buttons-list">
+    {%if eva%}
+        <a role="button" {% if not test.downloaded %} disabled {%endif%} {% if not test.first and test.survey1%} disabled {%endif%} {% if test.first and test.survey2%} disabled {%endif%} class="btn btn-primary" {% if test.downloaded and not test.survey1 and not test.first%}href="{% url 'survey1' test.pk year%}"{%endif%} {% if test.downloaded and not test.survey2 and test.first%}href="{% url 'survey2' test.pk year%}"{%endif%}>{% trans "Evaluar la aplicación" %}</a>
+    {%endif%}
+        <a role="button" class="btn btn-default"  href="{% url 'resultadosCompletos' test.pk year%}">{% trans "Ver resultados completos" %}</a>
+        <a role="button" class="btn btn-default" href="{% url 'resultadosCompletosPdf' test.pk year%}">{% trans "Descargar resultados completos" %}</a>
+    </div>
+</div>
+<h1>Informe de grupo {{clase}}</h1>
+{%for p in preguntas %}
+{%if forloop.counter != 5 and forloop.counter != 6%}
+<h3 style="font-size:18cdpx">{{ forloop.counter }}# {{p.pregunta.tipo_pregunta}}: {% trans p.pregunta.pregunta %}</h3>
+<br>
+<h4>{% trans 'Filtrar relaciones' %}</h4>
+    <div>
+        {%if forloop.counter == 1%}
+        <label style="margin: 5px">
+            <input type="checkbox" name="edgesFilter1" value="mutual" checked />
+            {% trans 'Se eligen ' %}<span style="color:#d6c22b">{% trans 'mutuamente' %}</span>
+        </label>
+        <label style="margin: 5px">
+            <input type="checkbox" name="edgesFilter1" value="os" checked />
+            <span style="color:#e05ab8">{% trans 'Oposición' %}</span>{% trans ' de sentimiento' %}
+        </label>
+        <label style="margin: 5px">
+            <input type="checkbox" name="edgesFilter1" value="normal" checked />
+            {% trans 'Otras' %}
+        </label>
+        {%endif%}
+
+        {%if forloop.counter == 2%}
+        <label style="margin: 5px">
+            <input type="checkbox" name="edgesFilter2" value="reject" checked />
+            {% trans 'Se rechazan ' %}<span style="color:#0da863">{% trans 'mutuamente' %}</span>
+        </label>
+        <label style="margin: 5px">
+            <input type="checkbox" name="edgesFilter2" value="os" checked />
+            <span style="color:#e05ab8">{% trans 'Oposición' %}</span>{% trans ' de sentimiento (OS)' %}
+        </label>
+        <label style="margin: 5px">
+            <input type="checkbox" name="edgesFilter2" value="normal" checked />
+            {% trans 'Otras' %}
+        </label>
+        {%endif%}
+
+        {%if forloop.counter == 3%}
+        <label style="margin: 5px">
+            <input type="checkbox" name="edgesFilter3" value="believe" checked />
+            {% trans 'Cree que lo ' %}<span style="color:#349beb">{% trans 'eligen y acierta' %}</span>
+        </label>
+        <label style="margin: 5px">
+            <input type="checkbox" name="edgesFilter3" value="oip" checked />
+            {% trans 'Oposición entre ' %}<span style="color:#ed3e46">{% trans 'la expectativa de ser elegido y la realidad de ser rechazado' %}</span> (OIP)
+        </label>
+        <label style="margin: 5px">
+            <input type="checkbox" name="edgesFilter3" value="normal" checked />
+            {% trans 'Otras' %}
+        </label>
+        {%endif%}
+
+        {%if forloop.counter == 4%}
+        <label style="margin: 5px">
+            <input type="checkbox" name="edgesFilter4" value="believeNo" checked />
+            {% trans 'Cree que lo ' %}<span style="color:#eb8034">{% trans 'rechazan y acierta' %}</span>
+        </label>
+        <label style="margin: 5px">
+            <input type="checkbox" name="edgesFilter4" value="oin" checked />
+            {% trans 'Oposición entre ' %}<span style="color:#9646e0">{% trans 'la expectativa de ser rechazado y la realidad de ser elegido ' %}</span>(OIN)
+        </label>
+        <label style="margin: 5px">
+            <input type="checkbox" name="edgesFilter4" value="normal" checked />
+            {% trans 'Otras' %}
+        </label>
+        {%endif%}
+    </div>
+<h4>{% trans 'Filtrar alumnos' %}</h4>
+<div>
+    {%if forloop.counter == 1%}
+    <select data-width="50%" name="nodesFilter1" class="selectpicker" multiple data-size="5" data-actions-box="true" title="{%trans 'Seleccione los alumnos que desea ver...'%}" data-header="{%trans 'Seleccione los alumnos que desea ver...'%}"
+            data-live-search="true" data-selected-text-format="count > 3" data-count-selected-text="{%trans '{0} alumnos seleccionados'%}"
+            data-deselect-all-text="{%trans 'Deseleccionar todo'%}" data-select-all-text="{%trans 'Seleccionar todo'%}" data-live-search-placeholder="{% trans 'Buscar...'%}">
+        {%for alumno in alumnosQuery%}
+        <option selected="selected" value="{{alumno.username}}" data-subtext="{{alumno.get_apellidos}}">{{alumno.get_nombre}}</option>
+        {%endfor%}
+    </select>
+    {%endif%}
+
+    {%if forloop.counter == 2%}
+    <select data-width="50%" name="nodesFilter2" class="selectpicker" multiple data-size="5" data-actions-box="true" title="{%trans 'Seleccione los alumnos que desea ver...'%}" data-header="{%trans 'Seleccione los alumnos que desea ver...'%}"
+            data-live-search="true" data-selected-text-format="count > 3" data-count-selected-text="{%trans '{0} alumnos seleccionados'%}"
+            data-deselect-all-text="{%trans 'Deseleccionar todo'%}" data-select-all-text="{%trans 'Seleccionar todo'%}" data-live-search-placeholder="{% trans 'Buscar...'%}">
+        {%for alumno in alumnosQuery%}
+        <option selected="selected" value="{{alumno.username}}" data-subtext="{{alumno.get_apellidos}}">{{alumno.get_nombre}}</option>
+        {%endfor%}
+    </select>
+    {%endif%}
+
+    {%if forloop.counter == 3%}
+    <select data-width="50%" name="nodesFilter3" class="selectpicker" multiple data-size="5" data-actions-box="true" title="{%trans 'Seleccione los alumnos que desea ver...'%}" data-header="{%trans 'Seleccione los alumnos que desea ver...'%}"
+            data-live-search="true" data-selected-text-format="count > 3" data-count-selected-text="{%trans '{0} alumnos seleccionados'%}"
+            data-deselect-all-text="{%trans 'Deseleccionar todo'%}" data-select-all-text="{%trans 'Seleccionar todo'%}" data-live-search-placeholder="{% trans 'Buscar...'%}">
+        {%for alumno in alumnosQuery%}
+        <option selected="selected" value="{{alumno.username}}" data-subtext="{{alumno.get_apellidos}}">{{alumno.get_nombre}}</option>
+        {%endfor%}
+    </select>
+    {%endif%}
+
+    {%if forloop.counter == 4%}
+    <select data-width="50%" name="nodesFilter4" class="selectpicker" multiple data-size="5" data-actions-box="true" title="{%trans 'Seleccione los alumnos que desea ver...'%}" data-header="{%trans 'Seleccione los alumnos que desea ver...'%}"
+              data-live-search="true" data-selected-text-format="count > 3" data-count-selected-text="{%trans '{0} alumnos seleccionados'%}"
+              data-deselect-all-text="{%trans 'Deseleccionar todo'%}" data-select-all-text="{%trans 'Seleccionar todo'%}" data-live-search-placeholder="{% trans 'Buscar...'%}">
+    {%for alumno in alumnosQuery%}
+    <option selected="selected" value="{{alumno.username}}" data-subtext="{{alumno.get_apellidos}}">{{alumno.get_nombre}}</option>
+    {%endfor%}
+</select>
+    {%endif%}
+</div>
+<br>
+<div id={{forloop.counter}}></div>
+{%endif%}
+{%endfor%}
+
+<br>
+<br>
+<h3>{% trans 'Índices' %}</h3>
+<br>
+<table class="table">
+    <tbody>
+    <tr>
+        <th scope="row">{% trans 'Cohesión de grupo (IC)' %}</th>
+        {%for n, v in ic.items%}
+        {% if n <= 44 %}
+        <td style="color:#FF0000">{{n}}%</td>
+        <td style="color:#FF0000">{{v}}</td>
+        {% else %}
+        <td>{{n}}%</td>
+        <td>{{v}}</td>
+        {% endif %}
+        {%endfor%}
+    </tr>
+    <tr>
+        <th scope="row">{% trans 'Disociación de grupo (ID)' %}</th>
+        {%for n, v in id.items%}
+        {% if n >= 45 %}
+        <td style="color:#FF0000">{{n}}%</td>
+        <td style="color:#FF0000">{{v}}</td>
+        {% else %}
+        <td>{{n}}%</td>
+        <td>{{v}}</td>
+        {% endif %}
+        {%endfor%}
+    </tr>
+    <tr>
+        <th scope="row">{% trans 'Actividad media de afinidad (Iap)' %}</th>
+        {%for n, v in iap.items%}
+        {% if n < 25 %}
+        <td style="color:#FF0000">{{n}}%</td>
+        <td style="color:#FF0000">{{v}}</td>
+        {% else %}
+        <td>{{n}}%</td>
+        <td>{{v}}</td>
+        {% endif %}
+        {%endfor%}
+    </tr>
+    <tr>
+        <th scope="row">{% trans 'Disociación de grupo (Ian)' %}</th>
+        {%for n, v in ian.items%}
+        {% if n >= 75 %}
+        <td style="color:#FF0000">{{n}}%</td>
+        <td style="color:#FF0000">{{v}}</td>
+        {% else %}
+        <td>{{n}}%</td>
+        <td>{{v}}</td>
+        {% endif %}
+        {%endfor%}
+    </tr>
+    </tbody>
+</table>
+
+<br>
+<br>
+<h3>{% trans 'Propuesta de intervención grupal' %}</h3>
+<fieldset>
+    <legend>{% trans 'Áreas' %}</legend>
+<br>
+<div align="left" style="font-size:large; border: 1px solid silver">
+<ul>
+        {%for vari, valueVari in recomendaciones.items%} <!-- vari es nombre de variable -->
+          {%if vari == "IC" or vari == "ID"%}
+          {%if valueVari|not_empty%}
+          <br>
+          <br>
+          <li><b>{{vari}}</b>: {{valueVari|return_des}}</li>
+            <ul>
+            <br>
+          {%endif%}
+              {%for variNum, valueVariNum in valueVari.items%}
+                {%for areaEx, valueAreaEx in valueVariNum.items%} <!-- areaEx es nombre de categoria -->
+                  {%if valueAreaEx|not_empty_ex%}
+                    <li><i>{{areaEx}}</i></li>
+                      <ul>
+                  {%endif%}
+                    {%for areaInNum, valueAreaIn in valueAreaEx.items%} 
+                      {%for areaIn, valueAreaAns in valueAreaIn.items%} <!-- areaIn es nombre de problema -->
+                        {%for areaIn, valueAreaAns in valueAreaIn.items%}
+                          {%for ans, link in valueAreaAns.items%}
+                                  
+                            <li><a href={{link.0}}>{{areaIn}}</a></li>
+                              <ul>
+
+                                {%for motivo in link%}
+                                  {%if forloop.counter > 2%}
+                                      {%if motivo != ''%}<li>{{motivo}}</li>{%endif%}
+                                  {%endif%}
+                                {%endfor%}
+                              </ul>
+                              
+                          {%endfor%}
+                        {%endfor%}
+                      {%endfor%}
+                    {%endfor%}
+                    {%if valueAreaEx|not_empty_ex%}
+                      </ul>
+                      <br>
+                    {%endif%}
+                {%endfor%}
+              {%endfor%}
+              {%if valueVari|not_empty%}
+                </ul>
+              {%endif%}
+              {%endif%}
+        {%endfor%}
+</ul>
+</div>
+</fieldset>
+<br>
+
+<script type="text/javascript">
+    function startNetwork(data, num) {
+      const container = document.getElementById(num);
+      var options = {
+              height: '70%',
+              interaction: {
+                  navigationButtons: true,
+                  keyboard: true,
+                  hover: true
+              },
+              edges: {
+                scaling:{
+                  min: 1,
+                  max: 2,
+                  customScalingFunction: function (min,max,total,value) {
+                      return (value/5.0 - 0.2)*10.0;
+                  }
+                }
+              },
+              nodes: {
+                shape: "dot",
+                shadow: true
+              },
+              physics: {
+                barnesHut: {
+                  gravitationalConstant: -2000,
+                  centralGravity: 0.3,
+                  springLength: 300,
+                  springConstant: 0.04,
+                  damping: 0.09,
+                  avoidOverlap: 0
+                },
+                forceAtlas2Based: {
+                  gravitationalConstant: -50,
+                  centralGravity: 0.01,
+                  springConstant: 0.08,
+                  springLength: 300,
+                  damping: 0.4,
+                  avoidOverlap: 0
+                },
+                repulsion: {
+                  centralGravity: 0.2,
+                  springLength: 500,
+                  springConstant: 0.05,
+                  nodeDistance: 500,
+                  damping: 0.09
+                },
+                hierarchicalRepulsion: {
+                  centralGravity: 0.0,
+                  springLength: 500,
+                  springConstant: 0.01,
+                  nodeDistance: 500,
+                  damping: 0.09,
+                  avoidOverlap: 0
+                }
+              }
+          };
+      new vis.Network(container, data, options);
+    }
+
+    var alumnos = JSON.parse('{{ alumnos|safe }}');
+    var respuestas = JSON.parse('{{ respuestas|safe }}');
+    var sp = JSON.parse('{{ sp|safe }}');
+    var sn = JSON.parse('{{ sn|safe }}');
+    var ip = JSON.parse('{{ ip|safe }}');
+    var iN = JSON.parse('{{ iN|safe }}');
+    
+    var nodesFilterValues = {};
+  for (var num in respuestas) {
+    var students = [];
+    for(var user in alumnos) {
+        var aux = {};
+        nodesFilterValues[alumnos[user.toString()]] = true;
+        aux['id'] = alumnos[user.toString()];
+        aux['label'] = user.toString()
+        aux['font'] = {
+          strokeWidth: 3,
+          strokeColor: "#ffffff"
+        }
+        if (num == 1) {
+            aux['value'] = parseInt(sp[alumnos[user.toString()]])
+        } else if (num == 2){
+            aux['value'] = parseInt(sn[alumnos[user.toString()]])
+        } else if (num == 3){
+            aux['value'] = parseInt(ip[alumnos[user.toString()]])
+        } else if (num == 4){
+            aux['value'] = parseInt(iN[alumnos[user.toString()]])
+        }
+        students.push(aux)
+    }
+  // create an array with nodes
+    var nodes = new vis.DataSet(students);
+    if (num != 5 && num != 6) {
+        let edgesFilterValues;
+        if (num == 1) {
+            edgesFilterValues = {
+              mutual: true,
+              os: true,
+              normal: true
+            };
+        } else if (num == 2){
+            edgesFilterValues = {
+              reject: true,
+              os: true,
+              normal: true
+            };
+        } else if (num == 3){
+            edgesFilterValues = {
+              believe: true,
+              oip: true,
+              normal: true
+            };
+        } else if (num == 4){
+            edgesFilterValues = {
+              believeNo: true,
+              oin: true,
+              normal: true
+            };
+        }
+        var relations = [];
+        var relationsDone = {}
+        for (var student1 in respuestas[num]) {
+            for (student2 in respuestas[num][student1]) {
+                var aux = {};
+                aux['from'] = student1;
+                for (var color in respuestas[num][student1][student2]) {
+                    if (respuestas[num][student1][student2][color] != '' && !(student2.toString().concat(student1.toString()) in relationsDone)) {
+                        aux['to'] = student2;
+                        aux['value'] = respuestas[num][student1][student2][color];
+                        aux['color'] = {color: color, highlight: color, hover: color}
+                        if (color == '#d6c22b') {
+                            aux['title'] = "Se eligen mutuamente"
+                            aux['relation'] = "mutual"
+                        } else if (color == "#e05ab8") {
+                            aux['title'] = "Oposición de sentimiento"
+                            aux['relation'] = "os"
+                        } else if (color == "#0da863") {
+                            aux['title'] = "Se rechazan mutuamente"
+                            aux['relation'] = "reject"
+                        } else if (color == "#349beb") {
+                            aux['title'] = "Cree que lo eligen y acierta"
+                            aux['relation'] = "believe"
+                        } else if (color == "#ed3e46") {
+                            aux['title'] = "Oposición entre la expectativa de ser elegido y la realidad de ser rechazado"
+                            aux['relation'] = "oip"
+                        } else if (color == "#eb8034") {
+                            aux['title'] = "Cree que lo rechazan y acierta"
+                            aux['relation'] = "believeNo"
+                        } else if (color == "#9646e0") {
+                            aux['title'] = "Oposición entre la expectativa de ser rechazado y la realidad de ser elegido"
+                            aux['relation'] = "oin"
+                        } else {
+                            aux['relation'] = "normal"
+                        }
+                        if (student2 in respuestas[num]) {
+                            if (student1 in respuestas[num][student2]) {
+                                for (var color2 in respuestas[num][student2][student1]) {
+                                    if (respuestas[num][student2][student1][color2] != '' && num != 3 && num != 4) {
+                                        aux['arrows'] = 'to, from';
+                                        relationsDone[student1.toString().concat(student2.toString())] = 1
+                                        if ((respuestas[num][student2][student1][color2] == 5 || respuestas[num][student2][student1][color2] == 4) &&
+                                        (respuestas[num][student1][student2][color] == 5 || respuestas[num][student1][student2][color] == 4)) {
+                                            aux['value'] = 5;
+                                        } else if (respuestas[num][student2][student1][color2] == 3 || respuestas[num][student1][student2][color] == 3 || (respuestas[num][student1][student2][color] == 2 &&
+                                        respuestas[num][student2][student1][color2] == 4) || (respuestas[num][student2][student1][color2] == 2 && respuestas[num][student1][student2][color] == 4)){
+                                            aux['value'] = 3;
+                                        } else if (Math.abs(respuestas[num][student1][student2][color]-respuestas[num][student2][student1][color2]) >= 2) {
+                                            aux['value'] = 3;
+                                            aux['dashes'] = true;
+                                            aux['title'] = aux['title'] + "\nElección recíproca desequilibrada"
+                                        } else {
+                                            aux['value'] = 1;
+                                        }
+                                    } else {
+                                        aux['arrows'] = 'to';
+                                    }
+                                }
+                            }
+                        } else {
+                            aux['arrows'] = 'to';
+                        }
+                        relations.push(aux)
+                    }
+                }
+
+            }
+        }
+        // create an array with edges
+          var edges = new vis.DataSet(relations);
+
+          // create a network
+          var container = document.getElementById(num);
+          var data = {
+            nodes: nodes,
+            edges: edges
+          };
+
+          const edgesFilter = edge => {
+              return edgesFilterValues[edge.relation];
+            };
+
+            const nodesFilter = node => {
+              return nodesFilterValues[node.id];
+            };
+
+          const edgeFilters = document.getElementsByName("edgesFilter"+num);
+          const nodeFilters = document.getElementsByName("nodesFilter"+num);
+          const edgesView = new vis.DataView(edges, { filter: edgesFilter });
+          const nodesView = new vis.DataView(nodes, { filter: nodesFilter });
+          edgeFilters.forEach(filter =>
+              filter.addEventListener("change", e => {
+                const { value, checked } = e.target;
+                edgesFilterValues[value] = checked;
+                edgesView.refresh();
+              })
+            );
+            nodeFilters[0].addEventListener("change", e => {
+                for (op in nodesFilterValues) {
+                    nodesFilterValues[op] = false
+                }
+                for (op in e.target.selectedOptions) {
+                    nodesFilterValues[e.target.selectedOptions[op].value] = true;
+                }
+                nodesView.refresh();
+              })
+
+        startNetwork({ nodes: nodesView, edges: edgesView },num);
+    }
+  }
+
+</script>
+
+{%endblock%}

@@ -1,0 +1,685 @@
+{% extends "../base.html" %}
+{% block content %}
+{% load octicons %}
+{% load i18n %}
+{% load django_bootstrap_breadcrumbs %}
+      {% block breadcrumbs %}
+      {{ block.super }}
+      {% breadcrumb "Home" "home" %}
+      {% breadcrumb "Menú" "menu" year%}
+      {% breadcrumb "Cuestionarios" "testlist" year%}
+      {% breadcrumb "Resultados" "resultados" test.pk year%}
+      {% breadcrumb "Resultados Completos" "resultadosCompletos" %}
+      {% endblock %}
+<div class="container">
+  <div class="buttons-list">
+  {%if teacher.evaluacion%}
+    <a role="button" {% if not test.downloaded %} disabled {%endif%} {% if not test.first and test.survey1%} disabled {%endif%} {% if test.first and test.survey2%} disabled {%endif%} class="btn btn-primary" {% if test.downloaded and not test.survey1 and not test.first%}href="{% url 'survey1' test.pk year%}"{%endif%} {% if test.downloaded and not test.survey2 and test.first%}href="{% url 'survey2' test.pk year%}"{%endif%}>{% trans "Evaluar la aplicación" %}</a>
+  {%endif%}
+    <a role="button" class="btn btn-default" href="{% url 'resultadosCompletosPdf' test.pk year%}">{% trans "Descargar resultados completos" %}</a>
+  </div>
+</div>
+<h1>{% blocktrans %} Informe de grupo {{clase}} {% endblocktrans %}</h1>
+<br>
+<br>
+<table class="table">
+  <tbody>
+  <tr>
+    <th scope="row">{% trans 'Colegio' %}</th>
+    <td>{{teacher.colegio}}</td>
+  </tr>
+  <tr>
+    <th scope="row">{% trans 'Curso y Grupo' %}</th>
+    <td>{{clase}}</td>
+  </tr>
+  <tr>
+    <th scope="row">{% trans 'Tutor responsable' %}</th>
+    <td>{{teacher.nombre}} {{teacher.apellidos}}</td>
+  </tr>
+  <tr>
+    <th scope="row">{% trans 'Nombre del test' %}</th>
+    <td>{{testName}}</td>
+  </tr>
+  <tr>
+    <th scope="row">{% trans 'Fecha del test' %}</th>
+    <td>{{date}}</td>
+  </tr>
+  </tbody>
+</table>
+<br>
+<h3>{% trans 'Alumnos'%}</h3>
+<table class="table">
+  <thead style="display:table-header-group">
+  <tr>
+    <th scope="col">{% trans 'Número' %}</th>
+    <th scope="col">{% trans 'Nombre' %}</th>
+    <th scope="col">{% trans 'Respuestas' %}</th>
+  </tr>
+  </thead>
+  <tbody>
+  {%for alumno in alumnos%}
+  {%for ini, alumnoini in initials.items%}
+  {%if alumno.username|add:0 == alumnoini.username|add:0%}
+  <tr>
+  <td scope="row">{{ini}}</td>
+  <td scope="row">{{alumnoini.get_nombre}} {{alumnoini.get_apellidos}}</td>
+    {%if alumnoini.answer%}
+    <td scope="row">{%trans 'Sí'%}</td>
+    {%else%}
+    <td scope="row">{%trans 'No'%}</td>
+    {%endif%}
+  </tr>
+  {%endif%}
+  {%endfor%}
+  {%endfor%}
+  </tbody>
+</table>
+<br>
+<h3>{% trans 'Preguntas'%}</h3>
+{%for num,valueNum in respuestasNum.items %}
+{%for key,value in valueNum.items %}
+<h3 style="font-size:18cdpx">{{key}}</h3>
+<table class="table">
+  <thead style="display:table-header-group">
+    <tr>
+      <th scope="col">{{num}}#</th>
+      {%for alumno in alumnos%}
+      {%for ini,alumnoini in initials.items%}
+      {%if alumno.username|add:0 == alumnoini.username|add:0%}
+      <th scope="col">{{ini}}</th>
+      {%endif%}
+      {%endfor%}
+      {%endfor%}
+    </tr>
+  </thead>
+  <tbody>
+  {%for alumno in alumnos%}
+  {%for ini, alumnoini in initials.items%}
+  {%if alumno.username|add:0 == alumnoini.username|add:0%}
+    {%for alumno_respo,respuesta in value.items%}
+    {%if alumno_respo.id|add:0 == alumnoini.idAl.id|add:0%}
+    <tr>
+      <th style="border-bottom: 1px solid #dddddd;" scope="row">{{ini}}</th>
+      {%for alumnoresult in alumnos%}
+      {%for element,valor in respuesta.items%}
+      {%if element|add:0 == alumnoresult.username|add:0%}
+      {%for color, v in valor.items%}
+      <td style="border: 1px solid #dddddd;" bgcolor={{color}}>{{v}}</td>
+      {%endfor%}
+      {%endif%}
+      {%endfor%}
+      {%endfor%}
+    </tr>
+    {%endif%}
+    {%endfor%}
+  {%endif%}
+  {%endfor%}
+  {%endfor%}
+  </tbody>
+</table>
+<br>
+{%endfor%}
+{%endfor%}
+
+<br>
+<br>
+<h3>{% trans 'Cáculo de variables' %}</h3>
+<h4>{% trans 'Matriz pregunta tipo 1' %}</h4>
+<br>
+<table class="table">
+  <thead style="display:table-header-group">
+  <tr>
+    <th scope="col">#</th>
+    {%for alumno in alumnos%}
+      {%for ini,alumnoini in initials.items%}
+      {%if alumno.username|add:0 == alumnoini.username|add:0%}
+      <th scope="col">{{ini}}</th>
+      {%endif%}
+      {%endfor%}
+      {%endfor%}
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <th scope="row">SP</th>
+    {%for alumno in alumnos%}
+    {%for user, n in sp.items%}
+    {%if user|add:0 == alumno.username|add:0%}
+    {% if n < spValue %}
+    <td style="border: 1px solid #dddddd; color:#FF0000">{{n}}</td>
+    {% else %}
+    <td style="border: 1px solid #dddddd">{{n}}</td>
+    {%endif%}
+    {%endif%}
+    {%endfor%}
+    {%endfor%}
+  </tr>
+  <tr>
+    <th scope="row">SP val</th>
+    {%for alumno in alumnos%}
+    {%for user, n in spval.items%}
+    {%if user|add:0 == alumno.username|add:0%}
+    <td style="border: 1px solid #dddddd;">{{n}}</td>
+    {%endif%}
+    {%endfor%}
+    {%endfor%}
+  </tr>
+  <tr>
+    <th style="border-bottom: 1px solid #dddddd;" scope="row">NP</th>
+    {%for alumno in alumnos%}
+    {%for user, n in np.items%}
+    {%if user|add:0 == alumno.username|add:0%}
+    {% if n <= 25 %}
+    <td style="border: 1px solid #dddddd; color:#FF0000">{{n}}%</td>
+    {% else %}
+    <td style="border: 1px solid #dddddd">{{n}}%</td>
+    {%endif%}
+    {%endif%}
+    {%endfor%}
+    {%endfor%}
+  </tr>
+  </tbody>
+</table>
+<br>
+<table class="table">
+  <tbody>
+  {%for x, values in data1.items%}
+  {%for name, val in values.items%}
+  <tr>
+    <th scope="row">{{name}}</th>
+    <td>{{val|floatformat:2}}</td>
+  </tr>
+  {%endfor%}
+  {%endfor%}
+  </tbody>
+</table>
+<br>
+<table class="table">
+  <tbody>
+  <tr>
+    <th scope="row" bgcolor="#d6c22b">{% trans 'Se eligen mutuamente' %}</th>
+    <td>{{mutual}}</td>
+  </tr>
+  </tbody>
+</table>
+<br>
+<h4>{% trans 'Matriz pregunta tipo 2' %}</h4>
+<br>
+<table class="table">
+  <thead style="display:table-header-group">
+  <tr>
+    <th scope="col">#</th>
+    {%for alumno in alumnos%}
+      {%for ini,alumnoini in initials.items%}
+      {%if alumno.username|add:0 == alumnoini.username|add:0%}
+      <th scope="col">{{ini}}</th>
+      {%endif%}
+      {%endfor%}
+      {%endfor%}
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <th scope="row">SN</th>
+    {%for alumno in alumnos%}
+    {%for user, n in sn.items%}
+    {%if user|add:0 == alumno.username|add:0%}
+    {% if n >= snValue %}
+    <td style="border: 1px solid #dddddd; color:#FF0000">{{n}}</td>
+    {% else %}
+    <td style="border: 1px solid #dddddd">{{n}}</td>
+    {%endif%}
+    {%endif%}
+    {%endfor%}
+    {%endfor%}
+  </tr>
+  <tr>
+    <th scope="row">SN val</th>
+    {%for alumno in alumnos%}
+    {%for user, n in snval.items%}
+    {%if user|add:0 == alumno.username|add:0%}
+    <td style="border: 1px solid #dddddd;">{{n}}</td>
+    {%endif%}
+    {%endfor%}
+    {%endfor%}
+  </tr>
+  <tr>
+    <th style="border-bottom: 1px solid #dddddd;" scope="row">NN</th>
+    {%for alumno in alumnos%}
+    {%for user, n in nn.items%}
+    {%if user|add:0 == alumno.username|add:0%}
+    {% if n >= 75 %}
+    <td style="border: 1px solid #dddddd; color:#FF0000">{{n}}%</td>
+    {% else %}
+    <td style="border: 1px solid #dddddd">{{n}}%</td>
+    {%endif%}
+    {%endif%}
+    {%endfor%}
+    {%endfor%}
+  </tr>
+  </tbody>
+</table>
+<br>
+
+<table class="table">
+  <tbody>
+  {%for x, values in data2.items%}
+  {%for name, val in values.items%}
+  <tr>
+    <th scope="row">{{name}}</th>
+    <td>{{val|floatformat:2}}</td>
+  </tr>
+  {%endfor%}
+  {%endfor%}
+  </tbody>
+</table>
+<br>
+
+<table class="table">
+  <tbody>
+  <tr>
+    <th scope="row" bgcolor="#0da863">{% trans 'Se rechazan mutuamente' %}</th>
+    <td>{{reject}}</td>
+  </tr>
+  </tbody>
+</table>
+<br>
+<h4>{% trans 'Matrices preguntas tipo 1 y 2' %}</h4>
+<br>
+
+<table class="table">
+  <thead style="display:table-header-group">
+  <tr>
+    <th scope="col">#</th>
+    {%for t, title in title_matrix12.items%}
+    <th scope="col">{{title}}</th>
+    {%endfor%}
+  </tr>
+  </thead>
+  <tbody>
+
+    {%for alumno in alumnos%}
+    {%for ini,alumnoini in initials.items%}
+    {%if alumno.username|add:0 == alumnoini.username|add:0%}
+      {%for user, values in matrix12.items%}
+        {%if user|add:0 == alumnoini.username|add:0%}
+          <tr>
+          <th scope="row">{{ini}}</th>
+          {%for num1, nombre1 in title_matrix12.items%}
+            {%for nombre2, value12 in values.items%}
+              {%if nombre1 == nombre2%}
+              {%if nombre1 == "EP"%}
+                {%if value12 <= 25%}
+                <td style="color:#FF0000">{{value12}}%</td>
+                {%else%}
+                <td>{{value12}}%</td>
+                {%endif%}
+              {%elif nombre1 == "EN"%}
+                {%if value12 >= 75%}
+                <td style="color:#FF0000">{{value12}}%</td>
+                {%else%}
+                <td>{{value12}}%</td>
+                {%endif%}
+              {%else%}
+                <td>{{value12}}</td>
+              {%endif%}
+              {%endif%}
+            {%endfor%}
+          {%endfor%}
+          </tr>
+        {%endif%}
+      {%endfor%}
+      {%endif%}
+      {%endfor%}
+    {%endfor%}
+  </tbody>
+</table>
+
+<table class="table">
+  <tbody>
+  <tr>
+    <th scope="row" bgcolor="#e05ab8">OS</th>
+    <td>{{os}}</td>
+  </tr>
+  </tbody>
+</table>
+
+<br>
+
+<h4>{% trans 'Índices grupales' %}</h4>
+<br>
+<table class="table">
+  <thead style="display:table-header-group">
+  <tr>
+    <th scope="col" style="width: 50%">Ic</th>
+    <th scope="col" style="width: 50%">Iap</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    {% if ic <= 44 %}
+    <td style="color:#FF0000; width: 50%">{{ic}}%</td>
+    {% else %}
+    <td style="width: 50%">{{ic}}%</td>
+    {% endif %}
+
+    {% if iap < 25 %}
+    <td style="color:#FF0000; width: 50%">{{iap}}%</td>
+    {% else %}
+    <td style="width: 50%">{{iap}}%</td>
+    {% endif %}
+  </tr>
+  </tbody>
+</table>
+<br>
+<table class="table">
+  <thead style="display:table-header-group">
+  <tr>
+    <th scope="col" style="width: 50%">Id</th>
+    <th scope="col" style="width: 50%">Ian</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    {% if id >= 45 %}
+    <td style="color:#FF0000; width: 50%">{{id}}%</td>
+    {% else %}
+    <td style="width: 50%">{{id}}%</td>
+    {% endif %}
+
+    {% if ian >= 75 %}
+    <td style="color:#FF0000; width: 50%">{{ian}}%</td>
+    {% else %}
+    <td style="width: 50%">{{ian}}%</td>
+    {% endif %}
+  </tr>
+  </tbody>
+</table>
+<br>
+
+<h4>{% trans 'Matriz preguntas tipo 3' %}</h4>
+<br>
+<table class="table">
+  <thead style="display:table-header-group">
+  <tr>
+    <th scope="col">#</th>
+    {%for alumno in alumnos%}
+      {%for ini,alumnoini in initials.items%}
+      {%if alumno.username|add:0 == alumnoini.username|add:0%}
+      <th scope="col">{{ini}}</th>
+      {%endif%}
+      {%endfor%}
+      {%endfor%}
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <th scope="row">IP</th>
+    {%for alumno in alumnos%}
+    {%for user, n in ip.items%}
+    {%if user|add:0 == alumno.username|add:0%}
+    {% if n < ipValue %}
+    <td style="border: 1px solid #dddddd; color:#FF0000">{{n}}</td>
+    {% else %}
+    <td style="border: 1px solid #dddddd">{{n}}</td>
+    {%endif%}
+    {%endif%}
+    {%endfor%}
+    {%endfor%}
+  </tr>
+  <tr>
+    <th scope="row">IP val</th>
+    {%for alumno in alumnos%}
+    {%for user, n in ipval.items%}
+    {%if user|add:0 == alumno.username|add:0%}
+    <td style="border: 1px solid #dddddd;">{{n}}</td>
+    {%endif%}
+    {%endfor%}
+    {%endfor%}
+  </tr>
+  <tr>
+    <th style="border-bottom: 1px solid #dddddd;" scope="row">Imp</th>
+    {%for alumno in alumnos%}
+    {%for user, n in imp.items%}
+    {%if user|add:0 == alumno.username|add:0%}
+    {% if n >= 75 %}
+    <td style="border: 1px solid #dddddd; color:#FF0000">{{n}}%</td>
+    {% else %}
+    <td style="border: 1px solid #dddddd">{{n}}%</td>
+    {%endif%}
+    {%endif%}
+    {%endfor%}
+    {%endfor%}
+  </tr>
+  </tbody>
+</table>
+<br>
+
+<table class="table">
+  <tbody>
+  {%for x, values in data3.items%}
+  {%for name, val in values.items%}
+  <tr>
+    <th scope="row">{{name}}</th>
+    <td>{{val|floatformat:2}}</td>
+  </tr>
+  {%endfor%}
+  {%endfor%}
+  </tbody>
+</table>
+<br>
+
+<h4>{% trans 'Matriz pregunta tipo 4' %}</h4>
+<br>
+<table class="table">
+  <thead style="display:table-header-group">
+  <tr>
+    <th scope="col">#</th>
+    {%for alumno in alumnos%}
+      {%for ini,alumnoini in initials.items%}
+      {%if alumno.username|add:0 == alumnoini.username|add:0%}
+      <th scope="col">{{ini}}</th>
+      {%endif%}
+      {%endfor%}
+      {%endfor%}
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <th scope="row">IN</th>
+    {%for alumno in alumnos%}
+    {%for user, n in in.items%}
+    {%if user|add:0 == alumno.username|add:0%}
+    {% if n >= inValue %}
+    <td style="border: 1px solid #dddddd; color:#FF0000">{{n}}</td>
+    {% else %}
+    <td style="border: 1px solid #dddddd">{{n}}</td>
+    {%endif%}
+    {%endif%}
+    {%endfor%}
+    {%endfor%}
+  </tr>
+  <tr>
+    <th scope="row">IN val</th>
+    {%for alumno in alumnos%}
+    {%for user, n in inval.items%}
+    {%if user|add:0 == alumno.username|add:0%}
+    <td style="border: 1px solid #dddddd;">{{n}}</td>
+    {%endif%}
+    {%endfor%}
+    {%endfor%}
+  </tr>
+  <tr>
+    <th style="border-bottom: 1px solid #dddddd;" scope="row">Imn</th>
+    {%for alumno in alumnos%}
+    {%for user, n in imn.items%}
+    {%if user|add:0 == alumno.username|add:0%}
+    {% if n >= 75 %}
+    <td style="border: 1px solid #dddddd; color:#FF0000">{{n}}%</td>
+    {% else %}
+    <td style="border: 1px solid #dddddd">{{n}}%</td>
+    {%endif%}
+    {%endif%}
+    {%endfor%}
+    {%endfor%}
+  </tr>
+  </tbody>
+</table>
+<br>
+
+<table class="table">
+  <tbody>
+  {%for x, values in data4.items%}
+  {%for name, val in values.items%}
+  <tr>
+    <th scope="row">{{name}}</th>
+    <td>{{val|floatformat:2}}</td>
+  </tr>
+  {%endfor%}
+  {%endfor%}
+  </tbody>
+</table>
+<br>
+
+<table class="table">
+  <thead style="display:table-header-group">
+  <tr>
+    <th scope="col">#</th>
+    {%for t, title in title_matrix34.items%}
+    <th scope="col">{{title}}</th>
+    {%endfor%}
+  </tr>
+  </thead>
+  <tbody>
+
+  {%for alumno in alumnos%}
+  {%for ini,alumnoini in initials.items%}
+  {%if alumno.username|add:0 == alumnoini.username|add:0%}
+  {%for user, values in matrix34.items%}
+  {%if user|add:0 == alumnoini.username|add:0%}
+  <tr>
+    <th scope="row">{{ini}}</th>
+    {%for num1, nombre1 in title_matrix34.items%}
+    {%for nombre2, value12 in values.items%}
+    {%if nombre1 == nombre2%}
+      {%if nombre1 == "PP"%}
+        {%if value12 <= 25%}
+        <td style="color:#FF0000">{{value12}}%</td>
+        {%else%}
+        <td>{{value12}}%</td>
+        {%endif%}
+      {%elif nombre1 == "PN"%}
+        {%if value12 >= 75%}
+        <td style="color:#FF0000">{{value12}}%</td>
+        {%else%}
+        <td>{{value12}}%</td>
+        {%endif%}
+      {%else%}
+      <td>{{value12}}</td>
+      {%endif%}
+    {%endif%}
+    {%endfor%}
+    {%endfor%}
+  </tr>
+  {%endif%}
+  {%endfor%}
+  {%endif%}
+  {%endfor%}
+  {%endfor%}
+  </tbody>
+</table>
+<br>
+
+<table class="table">
+  <tbody>
+  <tr>
+    <th scope="row" bgcolor="#349beb">{% trans 'Cree que lo eligen y acierta' %}</th>
+    <td>{{believe}}</td>
+  </tr>
+  <tr>
+    <th scope="row" bgcolor="#ed3e46">OIP</th>
+    <td>{{oip}}</td>
+  </tr>
+  <tr>
+    <th scope="row" bgcolor="#eb8034">{% trans 'Cree que lo rechazan y acierta' %}</th>
+    <td>{{believeNo}}</td>
+  </tr>
+  <tr>
+    <th scope="row" bgcolor="#9646e0">OIN</th>
+    <td>{{oin}}</td>
+  </tr>
+  </tbody>
+</table>
+<br>
+
+<h4>{% trans 'Matriz pregunta tipo 5' %}</h4>
+<br>
+
+<table class="table">
+  <thead style="display:table-header-group">
+  <tr>
+    <th scope="col">#</th>
+    {%for alumno in alumnos%}
+      {%for ini,alumnoini in initials.items%}
+      {%if alumno.username|add:0 == alumnoini.username|add:0%}
+      <th scope="col">{{ini}}</th>
+      {%endif%}
+      {%endfor%}
+      {%endfor%}
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <th style="border-bottom: 1px solid #dddddd;" scope="row">IPP</th>
+    {%for alumno in alumnos%}
+    {%for user, n in ipp.items%}
+    {%if user|add:0 == alumno.username|add:0%}
+    {%if n >= 75%}
+    <td style="border: 1px solid #dddddd;color:#FF0000">{{n}}%</td>
+    {%else%}
+    <td style="border: 1px solid #dddddd;">{{n}}%</td>
+    {%endif%}
+    {%endif%}
+    {%endfor%}
+    {%endfor%}
+  </tr>
+  </tbody>
+</table>
+<br>
+
+<h4>{% trans 'Matriz pregunta tipo 6' %}</h4>
+<br>
+
+<table class="table">
+  <thead style="display:table-header-group">
+  <tr>
+    <th scope="col">#</th>
+    {%for alumno in alumnos%}
+      {%for ini,alumnoini in initials.items%}
+      {%if alumno.username|add:0 == alumnoini.username|add:0%}
+      <th scope="col">{{ini}}</th>
+      {%endif%}
+      {%endfor%}
+      {%endfor%}
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <th style="border-bottom: 1px solid #dddddd;" scope="row">IPN</th>
+    {%for alumno in alumnos%}
+    {%for user, n in ipn.items%}
+    {%if user|add:0 == alumno.username|add:0%}
+    {%if n >= 75%}
+    <td style="border: 1px solid #dddddd;color:#FF0000">{{n}}%</td>
+    {%else%}
+    <td style="border: 1px solid #dddddd;">{{n}}%</td>
+    {%endif%}
+    {%endif%}
+    {%endfor%}
+    {%endfor%}
+  </tr>
+  </tbody>
+</table>
+
+<br>
+{%endblock%}

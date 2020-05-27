@@ -1,0 +1,14 @@
+{% extends '../base.html' %}
+{% load i18n %}
+{% load django_bootstrap_breadcrumbs %}
+{% load widget_tweaks %}
+{% block breadcrumbs %}
+{{ block.super }}
+{% breadcrumb "Home" "home" %}
+{% breadcrumb "Menú" 'menu' %}
+{% endblock %}
+{% block content %}
+<a href="{%url 'estudiantes' year%}" role="button" class="btn btn-default btn-lg btn-block active">{% trans "Alumnos" %}</a>
+<a href="{%url 'testlist' year%}" role="button" class="btn btn-default btn-lg btn-block active">{% trans "Cuestionarios" %}</a>
+<a href="{%url 'password_change' %}" role="button" class="btn btn-default btn-lg btn-block active">{% trans "Mi cuenta" %}</a>
+{% endblock %}

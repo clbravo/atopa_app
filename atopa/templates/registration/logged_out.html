@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+{% load octicons %}
+{% load i18n %}
+
+<div class="alert alert-danger">
+    <h3>{%trans 'Se ha cerrado su sesión'%}</h3>
+    <h3>{%trans 'Por favor, vuelva a iniciar sesión si desea continuar'%}</h3>
+</div>
+<a href="{%url 'login'%}" role="button" class="btn btn-default">{% trans 'Volver' %}</a>
+
+{%endblock%}

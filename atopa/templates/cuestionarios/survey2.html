@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% block content %}
+{% load octicons %}
+{% load i18n %}
+{% load widget_tweaks %}
+{% load django_bootstrap_breadcrumbs %}
+{% block breadcrumbs %}
+{{ block.super }}
+{% breadcrumb "Home" "home" %}
+{% breadcrumb "Menú" "menu" year%}
+{% breadcrumb "Cuestionarios" "testlist" year%}
+{% breadcrumb "Encuesta 2" "survey1" %}
+{% endblock %}
+<div>
+    <h2>{% trans 'Evaluación de la Aplicación Atopa' %}</h2>
+    <br>
+    <p>{% trans "El objetivo de esta encuesta es llevar a cabo una evaluación de su percepción sobre la eficacia de la aplicación Atopa." %}</p>
+    <p>{% trans "Para llevar a cabo esta evaluación, pedimos su colaboración respondiendo al siguiente cuestionario. Su cumplimentación no le llevará más de 20 minutos." %}</p>
+    <p>{% trans "Este cuestionario es anónimo, sus respuestas serán tratadas de forma confidencial, y en ningún caso individualizadas." %}</p>
+    <p>{% trans "Al responder está aceptando que los resultados sean utilizados con fines académicos y, eventualmente, publicados siempre sin identificar a los participantes. La finalidad de la publicación será dar a conocer el proyecto Atopa y sus herramientas. El proyecto atopa es un proyecto cuyo objetivo es fomentar el uso de instrumentos sociométricos en los centros educativos, para evaluar y mejorar el clima de aula (https://www.atopa.es/)." %}</p>
+    <p>{% trans "Muchas gracias por su participación." %}</p>
+    <p style="font-style:italic;">{% trans "Equipo del proyecto Atopa" %}</p>
+    <p style="font-weight:bold;font-size:14;">{% trans "Contacto: participa@atopa.es" %}</p>
+    <br>
+    <p style="font-weight:bold;font-size:18;">{% trans "INFORMACIÓN PERSONAL" %}</p>
+</div>
+<form class="form-horizontal" method="post" novalidate >
+        {% csrf_token %}
+        {% trans "convivencia" as con %}
+        {% if form.non_field_errors %}
+        <div class="bg-danger">
+            {% for error in form.non_field_errors %}
+            {{ error }}
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% for field in form.visible_fields %}
+
+        {% if form.is_bound %}
+        {% if field.errors or form.non_field_errors%}
+        <div class="form-group has-error has-feedback box">
+            <div class="col-sm-7">
+                {{ field.label_tag }}
+            </div>
+            <div class="col-sm-5">
+                {%if "probabilidad" in field.label_tag or '10' in field.label_tag%}
+                    {% render_field field class="hor"%}
+                {%elif con in field.label_tag%}
+                    <p>{% trans "La convivencia..." %}</p>
+                    {% render_field field%}
+                {%else%}
+                    {% render_field field%}
+                {%endif%}
+                <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                {% for error in field.errors %}
+                <div class="bg-danger"> <!-- text-danger -->
+                    {{ error }}
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="form-group has-success has-feedback box">
+                <div class="col-sm-7">
+                    {{ field.label_tag }}
+                </div>
+                <div class="col-sm-5">
+                    {%if "probabilidad" in field.label_tag or '10' in field.label_tag%}
+                        {% render_field field class="hor"%}
+                    {%elif con in field.label_tag%}
+                        <p>{% trans "La convivencia..." %}</p>
+                        {% render_field field%}
+                    {%else%}
+                        {% render_field field%}
+                    {%endif%}
+                    <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                </div>
+                {% endif %}
+                {% else %}
+                <div class="form-group box">
+                    <div class="col-sm-7">
+                        {{ field.label_tag }}
+                    </div>
+                    <div class="col-sm-5">
+                    {%if "probabilidad" in field.label_tag or '10' in field.label_tag%}
+                        {% render_field field class="hor"%}
+                    {%elif con in field.label_tag%}
+                        <p>{% trans "La convivencia..." %}</p>
+                        {% render_field field%}
+                    {%else%}
+                        {% render_field field%}
+                    {%endif%}
+                    </div>
+                    {% endif %}
+
+                    {% if field.help_text %}
+                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                    {% endif %}
+                </div>
+                <br>
+                {%if "sex" in field.label_tag%}
+                <p style="font-weight:bold;font-size:18;">{% trans "PRIMER CUESTIONARIO" %}</p>
+                {%endif%}
+                {% trans "¿Cree que las propuestas de intervención del primer cuestionario son acertadas?" as inter %} 
+                {% trans "Describa brevemente su experiencia (indique las principales áreas en las que trabajar con el grupo, las actividades llevadas a cabo, la duración del proceso...):" as sec %} 
+                {% trans "¿Cree que las propuestas de intervención del segundo cuestionario son acertadas?" as eva %} 
+                {%if inter in field.label_tag%}
+                <p style="font-weight:bold;font-size:18;">{% trans "INTERVENCIÓN" %}</p>
+                {%endif%}
+                {%if sec in field.label_tag%}
+                <p style="font-weight:bold;font-size:18;">{% trans "SEGUNDO CUESTIONARIO" %}</p>
+                {%endif%}
+                {%if eva in field.label_tag%}
+                <p style="font-weight:bold;font-size:18;">{% trans "EVALUACIÓN GLOBAL" %}</p>
+                {%endif%}
+                {% endfor %}
+    <button type="submit" value="{% trans 'Login' %}" class="btn btn-primary btn-lg" id="load" data-loading-text="<i class='fa fa-spinner fa-spin '></i> Uploading">{% octicon "cloud-upload" %}</button>
+    <a href="{%url 'testlist' year%}" role="button" class="btn btn-default">{% trans 'Cancelar' %}</a>
+
+</form>
+<style>
+    ul {list-style:none}
+    li {text-align:left}
+    li label {font-weight:1}
+    label {font-size: 16px;}
+    .box {
+        box-sizing: border-box;
+        width: 100%;
+        border: 3px #007bffa3 solid;
+        padding: 20px;
+    }
+    .hor li{
+        display:inline;
+        padding: 2px;
+    }
+    textarea {
+        resize: vertical;
+    }
+</style>
+{% endblock %}

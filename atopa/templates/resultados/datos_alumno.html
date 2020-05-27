@@ -1,0 +1,780 @@
+{% extends "../base.html" %}
+{% block content %}
+{% load octicons %}
+{% load i18n %}
+{% load django_bootstrap_breadcrumbs %}
+    {% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb "Home" "home" %}
+    {% breadcrumb "Menú" "menu" year%}
+    {% breadcrumb "Cuestionarios" "testlist" year%}
+    {% breadcrumb "Resultados Alumno" "resultadosAlumno" %}
+{% endblock %}
+<div class="container">
+    <div class="buttons-list">
+    {%if teacher.evaluacion%}
+        <a role="button" {% if not test.downloaded %} disabled {%endif%} {% if not test.first and test.survey1%} disabled {%endif%} {% if test.first and test.survey2%} disabled {%endif%} class="btn btn-primary" {% if test.downloaded and not test.survey1 and not test.first%}href="{% url 'survey1' test.pk year%}"{%endif%} {% if test.downloaded and not test.survey2 and test.first%}href="{% url 'survey2' test.pk year%}"{%endif%}>{% trans "Evaluar la aplicación" %}</a>
+    {%endif%}
+        <a role="button" class="btn btn-default" href="{% url 'resultadosAlumnoPdf' test.pk alumnoUsername year%}">{% trans "Descargar resultados completos" %}</a>
+    </div>
+</div>
+<h1>{% trans 'Informe de' %} {{alumno.nombre}} {{alumno.apellidos}}</h1>
+<br>
+<br>
+{% trans "Bajo" as low %}
+{% trans "Alto" as high %}
+<table class="table">
+    <tbody>
+    <tr>
+        <th scope="row">{% trans 'Alias' %}</th>
+        {%if alumno.alias%}
+        <td>{{alumno.alias}}</td>
+        {%else%}
+        <td></td>
+        {%endif%}
+    </tr>
+    <tr>
+        <th scope="row">{% trans 'DNI' %}</th>
+        {%if alumno.DNI%}
+        <td>{{alumno.DNI}}</td>
+        {%else%}
+        <td></td>
+        {%endif%}
+    </tr>
+    <tr>
+        <th scope="row">{% trans 'Fecha de nacimiento' %}</th>
+        <td>{{dateAlumno}}</td>
+    </tr>
+    <tr>
+        <th scope="row">{% trans 'Sexo' %}</th>
+        <td>{{alumno.get_sexo_display}}</td>
+    </tr>
+    <tr>
+        <th scope="row">{% trans 'Clase' %}</th>
+        <td>{{test.clase}}</td>
+    </tr>
+    <tr>
+        <th scope="row">{% trans 'Tutor responsable' %}</th>
+        <td>{{teacher.nombre}} {{teacher.apellidos}}</td>
+    </tr>
+    <tr>
+        <th scope="row">{% trans 'Nombre del test' %}</th>
+        <td>{{test.nombre}}</td>
+    </tr>
+    <tr>
+        <th scope="row">{% trans 'Fecha de creación del test' %}</th>
+        <td>{{date}}</td>
+    </tr>
+    </tbody>
+</table>
+<br>
+
+<h3 style="font-weight: bold">{% trans 'Resultados de las preguntas'%}</h3>
+<br>
+{%for num, question in respuestas.items%}
+<h3>{% trans 'Pregunta' %} #{{num}}.- {{preguntas|return_tipo_pregunta:num}} ({%trans 'Tipo' %} {{num}})</h3>
+<h4>{{preguntas|return_pregunta:num}}</h4>
+{%for user, answers in question.items%}
+{%if user|add:0 == alumnoUsername|add:0%}
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col" >1º</th>
+        <th scope="col" >2º</th>
+        <th scope="col" >3º</th>
+        <th scope="col" >4º</th>
+        <th scope="col" >5º</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td style="border: 1px solid #dddddd; width: 20%">{{answers|return_value:5}}</td>
+        <td style="border: 1px solid #dddddd; width: 20%">{{answers|return_value:4}}</td>
+        <td style="border: 1px solid #dddddd; width: 20%">{{answers|return_value:3}}</td>
+        <td style="border: 1px solid #dddddd; width: 20%">{{answers|return_value:2}}</td>
+        <td style="border: 1px solid #dddddd; width: 20%">{{answers|return_value:1}}</td>
+    </tr>
+    {% with answers5=answers|return_text:5 %}
+    {% with answers4=answers|return_text:4 %}
+    {% with answers3=answers|return_text:3 %}
+    {% with answers2=answers|return_text:2 %}
+    {% with answers1=answers|return_text:1 %}
+    {%if num == 2%}
+    <td colspan=5 style="border: 1px solid #dddddd;font-weight: bold">{% trans '¿Por qué?'%}</td>
+    <tr>
+        {%for userAns, text in respuestasText2.items%}
+        {%if userAns|add:0 == answers5%}
+        <td style="border: 1px solid #dddddd; width: 20%">{{text}}</td>
+        {%endif%}
+        {%endfor%}
+        {%for userAns, text in respuestasText2.items%}
+        {%if userAns == answers4%}
+        <td style="border: 1px solid #dddddd; width: 20%">{{text}}</td>
+        {%endif%}
+        {%endfor%}
+        {%for userAns, text in respuestasText2.items%}
+        {%if userAns == answers3%}
+        <td style="border: 1px solid #dddddd; width: 20%">{{text}}</td>
+        {%endif%}
+        {%endfor%}
+        {%for userAns, text in respuestasText2.items%}
+        {%if userAns == answers2%}
+        <td style="border: 1px solid #dddddd; width: 20%">{{text}}</td>
+        {%endif%}
+        {%endfor%}
+        {%for userAns, text in respuestasText2.items%}
+        {%if userAns == answers1%}
+        <td style="border: 1px solid #dddddd; width: 20%">{{text}}</td>
+        {%endif%}
+        {%endfor%}
+
+        {%if answers5 == ''%}
+        <td style="border: 1px solid #dddddd; width: 20%"></td>
+        {%endif%}
+        {%if answers4 == ''%}
+        <td style="border: 1px solid #dddddd; width: 20%"></td>
+        {%endif%}
+        {%if answers3 == ''%}
+        <td style="border: 1px solid #dddddd; width: 20%"></td>
+        {%endif%}
+        {%if answers2 == ''%}
+        <td style="border: 1px solid #dddddd; width: 20%"></td>
+        {%endif%}
+        {%if answers1 == ''%}
+        <td style="border: 1px solid #dddddd; width: 20%"></td>
+        {%endif%}
+    </tr>
+    {%elif num == 4%}
+    <td colspan=5 style="border: 1px solid #dddddd;font-weight: bold">{% trans '¿Por qué?'%}</td>
+    <tr>
+        {%for userAns, text in respuestasText4.items%}
+        {%if userAns == answers5%}
+        <td style="border: 1px solid #dddddd; width: 20%">{{text}}</td>
+        {%endif%}
+        {%endfor%}
+        {%for userAns, text in respuestasText4.items%}
+        {%if userAns == answers4%}
+        <td style="border: 1px solid #dddddd; width: 20%">{{text}}</td>
+        {%endif%}
+        {%endfor%}
+        {%for userAns, text in respuestasText4.items%}
+        {%if userAns == answers3%}
+        <td style="border: 1px solid #dddddd; width: 20%">{{text}}</td>
+        {%endif%}
+        {%endfor%}
+        {%for userAns, text in respuestasText4.items%}
+        {%if userAns == answers2%}
+        <td style="border: 1px solid #dddddd; width: 20%">{{text}}</td>
+        {%endif%}
+        {%endfor%}
+        {%for userAns, text in respuestasText4.items%}
+        {%if userAns == answers1%}
+        <td style="border: 1px solid #dddddd; width: 20%">{{text}}</td>
+        {%endif%}
+        {%endfor%}
+
+        {%if answers5 == ''%}
+        <td style="border: 1px solid #dddddd; width: 20%"></td>
+        {%endif%}
+        {%if answers4 == ''%}
+        <td style="border: 1px solid #dddddd; width: 20%"></td>
+        {%endif%}
+        {%if answers3 == ''%}
+        <td style="border: 1px solid #dddddd; width: 20%"></td>
+        {%endif%}
+        {%if answers2 == ''%}
+        <td style="border: 1px solid #dddddd; width: 20%"></td>
+        {%endif%}
+        {%if answers1 == ''%}
+        <td style="border: 1px solid #dddddd; width: 20%"></td>
+        {%endif%}
+    {%elif num == 6%}
+    <td colspan=5 style="border: 1px solid #dddddd;font-weight: bold">{% trans '¿Por qué?'%}</td>
+    <tr>
+        {%for userAns, text in respuestasText6.items%}
+        {%if userAns == answers5%}
+        <td style="border: 1px solid #dddddd; width: 20%">{{text}}</td>
+        {%endif%}
+        {%endfor%}
+        {%for userAns, text in respuestasText6.items%}
+        {%if userAns == answers4%}
+        <td style="border: 1px solid #dddddd; width: 20%">{{text}}</td>
+        {%endif%}
+        {%endfor%}
+        {%for userAns, text in respuestasText6.items%}
+        {%if userAns == answers3%}
+        <td style="border: 1px solid #dddddd; width: 20%">{{text}}</td>
+        {%endif%}
+        {%endfor%}
+        {%for userAns, text in respuestasText6.items%}
+        {%if userAns == answers2%}
+        <td style="border: 1px solid #dddddd; width: 20%">{{text}}</td>
+        {%endif%}
+        {%endfor%}
+        {%for userAns, text in respuestasText6.items%}
+        {%if userAns == answers1%}
+        <td style="border: 1px solid #dddddd; width: 20%">{{text}}</td>
+        {%endif%}
+        {%endfor%}
+
+        {%if answers5 == ''%}
+        <td style="border: 1px solid #dddddd; width: 20%"></td>
+        {%endif%}
+        {%if answers4 == ''%}
+        <td style="border: 1px solid #dddddd; width: 20%"></td>
+        {%endif%}
+        {%if answers3 == ''%}
+        <td style="border: 1px solid #dddddd; width: 20%"></td>
+        {%endif%}
+        {%if answers2 == ''%}
+        <td style="border: 1px solid #dddddd; width: 20%"></td>
+        {%endif%}
+        {%if answers1 == ''%}
+        <td style="border: 1px solid #dddddd; width: 20%"></td>
+        {%endif%}
+    </tr>
+    {%endif%}
+    {%endwith%}
+    {%endwith%}
+    {%endwith%}
+    {%endwith%}
+    {%endwith%}
+    </tbody>
+</table>
+{%endif%}
+{%endfor%}
+<br>
+{%endfor%}
+
+<h3 style="font-weight: bold">{% trans 'Análisis de resultados' %}</h3>
+<br>
+<h3>1.- {% trans 'POSICIÓN SOCIOMÉTRICA (SP, SN, EP Y EN)' %}</h3>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col" >SP</th>
+        <th scope="col" >SN</th>
+        <th scope="col" >EP</th>
+        <th scope="col" >EN</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      {% if spValue == low %}
+        <td style="border: 1px solid #dddddd; color:#FF0000;width: 25%">{{sp}}</td>
+      {% else %}
+          <td style="border: 1px solid #dddddd; width: 25%">{{sp}}</td>
+      {% endif %}
+
+        {% if snValue == high %}
+        <td style="border: 1px solid #dddddd; color:#FF0000;width: 25%">{{sn}}</td>
+        {% else %}
+        <td style="border: 1px solid #dddddd; width: 25%">{{sn}}</td>
+        {% endif %}
+
+      {% if ep > 25 %}
+        <td style="border: 1px solid #dddddd; width: 25%">{{ep}}%</td>
+      {% else %}
+        <td style="border: 1px solid #dddddd; color:#FF0000; width: 25%">{{ep}}%</td>
+      {% endif %}
+
+      {% if en < 75 %}
+        <td style="border: 1px solid #dddddd; width: 25%">{{en}}%</td>
+      {% else %}
+        <td style="border: 1px solid #dddddd; color:#FF0000; width: 25%">{{en}}%</td>
+      {% endif %}
+    </tr>
+    </tbody>
+</table>
+<br>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col" >POSICIÓN SOC</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td style="border: 1px solid #dddddd; width: 20%"> <b> {{pos}} </b> </td>
+    </tr>
+    </tbody>
+</table>
+<br>
+
+
+<h3>2.- {% trans 'ESTATUS POSITIVO (SP) Y NIVEL MEDIO DE POPULARIDAD (NP)' %}</h3>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col" >{% trans 'NIVEL' %} SP</th>
+        <th scope="col" >{% trans 'VALOR' %} NP</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      {% if spValue == low %}
+        <td style="border: 1px solid #dddddd; color:#FF0000; width: 50%">{{spValue}}</td>
+      {% else %}
+        <td style="border: 1px solid #dddddd;  width: 50%">{{spValue}}</td>
+      {% endif %}
+
+      {% if np <= 25 %}
+        <td style="border: 1px solid #dddddd; color:#FF0000; width: 50%">{{np}}%</td>
+      {% else %}
+        <td style="border: 1px solid #dddddd;  width: 50%">{{np}}%</td>
+      {% endif %}
+    </tr>
+    </tbody>
+</table>
+<br>
+<h3>3.- {% trans 'ESTATUS NEGATIVO (SN) Y NIVEL MEDIO DE RECHAZO (NN)' %}</h3>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col" >{% trans 'NIVEL' %} SN</th>
+        <th scope="col" >{% trans 'VALOR' %} NN</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      {% if snValue == high %}
+        <td style="border: 1px solid #dddddd; color:#FF0000; width: 50%">{{snValue}}</td>
+      {% else %}
+        <td style="border: 1px solid #dddddd;  width: 50%">{{snValue}}</td>
+      {% endif %}
+
+      {% if nn >= 75 %}
+        <td style="border: 1px solid #dddddd; color:#FF0000; width: 50%">{{nn}}%</td>
+      {% else %}
+        <td style="border: 1px solid #dddddd;  width: 50%">{{nn}}%</td>
+      {% endif %}
+    </tr>
+    </tbody>
+</table>
+<br>
+<h3>4.- {% trans 'AMISTADES (RP)' %}</h3>
+<table class="table" style="empty-cells:show">
+    <thead>
+    <tr>
+        <th scope="col" >{% trans 'NOMBRE'%}</th>
+        <th scope="col" colspan=2 class="text-center">{% trans 'GRADO'%}</th>
+    </tr>
+    </thead>
+    <tbody>
+    {%for amigo, data in rp.items%}
+    <tr>
+        <td style="border: 1px solid #dddddd; width: 33.33%">{{amigo.nombre}} {{amigo.apellidos}}</td>
+        <td style="border: 1px solid #dddddd; width: 33.33%">{{data.1}}-{{data.2}}</td>
+        <td style="border: 1px solid #dddddd; width: 33.33%">{{data.0}}</td>
+    </tr>
+    {%endfor%}
+    {%if not rp.items%}
+    <tr>
+        <td style="border: 1px solid #dddddd; color:#FF0000" colspan=2>{% trans 'No hay' %}</td>
+    </tr>
+    {%endif%}
+    </tbody>
+</table>
+<br>
+<h3>5.- {% trans 'ENEMISTADES (RN)' %}</h3>
+<table class="table" style="empty-cells:show">
+    <thead>
+    <tr>
+        <th scope="col" >{% trans 'NOMBRE'%}</th>
+        <th scope="col" colspan=2 class="text-center">{% trans 'GRADO'%}</th>
+    </tr>
+    </thead>
+    <tbody>
+    {%for enemigo, data in rn.items%}
+    <tr>
+        <td style="border: 1px solid #dddddd; width: 33.33%">{{enemigo.nombre}} {{enemigo.apellidos}}</td>
+        <td style="border: 1px solid #dddddd; width: 33.33%">{{data.1}}-{{data.2}}</td>
+        <td style="border: 1px solid #dddddd; width: 33.33%">{{data.0}}</td>
+    </tr>
+    {%endfor%}
+    {%if not rn.items%}
+    <tr>
+        <td style="border: 1px solid #dddddd" colspan=2>{% trans 'No hay' %}</td>
+    </tr>
+    {%endif%}
+    </tbody>
+</table>
+<br>
+<h3>6.- {% trans 'OPOSICIÓN DE SENTIMIENTO (OS)' %}</h3>
+<table class="table" style="empty-cells:show">
+    <thead>
+    <tr>
+        <th scope="col" >{% trans 'ELIGE'%}</th>
+        <th scope="col" >{% trans 'RECHAZA'%}</th>
+        <th scope="col" colspan=2 class="text-center">{% trans 'GRADO'%}</th>
+    </tr>
+    </thead>
+    <tbody>
+    {%for op, data in os.items%}
+    <tr>
+        <td style="border: 1px solid #dddddd; width: 25%">{{data.3.nombre}} {{data.3.apellidos}}</td>
+        <td style="border: 1px solid #dddddd; width: 25%">{{data.4.nombre}} {{data.4.apellidos}}</td>
+        <td style="border: 1px solid #dddddd; width: 25%">{{data.1}}-{{data.2}}</td>
+        <td style="border: 1px solid #dddddd; width: 25%">{{data.0}}</td>
+    </tr>
+    {%endfor%}
+    {%if not os.items%}
+    <tr>
+        <td style="border: 1px solid #dddddd" colspan=3>{% trans 'No hay' %}</td>
+    </tr>
+    {%endif%}
+    </tbody>
+</table>
+<br>
+<h3>7.- {% trans 'GRADO DE SOCIABILIDAD O EXPANSIVIDAD (EP)' %}</h3>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col" >{% trans 'VALOR' %} EP</th>
+        <th scope="col" >{% trans 'NIVEL' %} EP</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      {% if ep <= 25 %}
+        <td style="border: 1px solid #dddddd; color:#FF0000; width: 50%">{{ep}}%</td>
+      {% else %}
+        <td style="border: 1px solid #dddddd;  width: 50%">{{ep}}%</td>
+      {% endif %}
+      {% if epValue == "Bajo" %}
+        <td style="border: 1px solid #dddddd; color:#FF0000; width: 50%">{{epValue}}</td>
+      {% else %}
+        <td style="border: 1px solid #dddddd;  width: 50%">{{epValue}}</td>
+      {% endif %}
+    </tr>
+    </tbody>
+</table>
+<br>
+<h3>8.- {% trans 'EXPECTATIVA DE SER ELEGIDO (PP)' %}</h3>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col" >{% trans 'VALOR' %} PP</th>
+        <th scope="col" >{% trans 'NIVEL' %} PP</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      {% if pp <= 25 %}
+        <td style="border: 1px solid #dddddd; color:#FF0000; width: 50%">{{pp}}%</td>
+      {% else %}
+        <td style="border: 1px solid #dddddd;  width: 50%">{{pp}}%</td>
+      {% endif %}
+
+      {% if ppValue == low %}
+        <td style="border: 1px solid #dddddd; color:#FF0000; width: 50%">{{ppValue}}</td>
+      {% else %}
+        <td style="border: 1px solid #dddddd;  width: 50%">{{ppValue}}</td>
+      {% endif %}
+    </tr>
+    </tbody>
+</table>
+<br>
+<h3>9.- {% trans 'GRADO DE ACIERTO EN LA EXPECTATIVA DE SER ELEGIDO (PAP)' %}</h3>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col" >{% trans 'VALOR' %} PAP</th>
+        <th scope="col" >{% trans 'NIVEL' %} PAP</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td style="border: 1px solid #dddddd;  width: 50%">{{pap}}%</td>
+        <td style="border: 1px solid #dddddd;  width: 50%">{{papValue}}</td>
+    </tr>
+    </tbody>
+</table>
+<br>
+<h3>10.- {% trans 'OPOSICIÓN ENTRE LA EXPECTATIVA DE SER ELEGIDO Y LA REALIDAD DE SER RECHAZADO (OIP)' %}</h3>
+<table class="table" style="empty-cells:show">
+    <thead>
+    <tr>
+        <th scope="col" >{% trans 'NOMBRE'%}</th>
+        <th scope="col" >{% trans 'GRADO'%}</th>
+    </tr>
+    </thead>
+    <tbody>
+    {%for oipuser, data in oip.items%}
+    <tr>
+        <td style="border: 1px solid #dddddd; width: 50%">{{oipuser.nombre}} {{oipuser.apellidos}}</td>
+        <td style="border: 1px solid #dddddd; width: 50%">{{data.1}}-{{data.2}}</td>
+    </tr>
+    {%endfor%}
+    {%if not oip.items%}
+    <tr>
+        <td style="border: 1px solid #dddddd" colspan=2>{% trans 'No hay' %}</td>
+    </tr>
+    {%endif%}
+    </tbody>
+</table>
+<br>
+<h3>11.- {% trans 'GRADO DE ANTIPATÍA (EN)' %}</h3>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col" >{% trans 'VALOR' %} EN</th>
+        <th scope="col" >{% trans 'NIVEL' %} EN</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      {% if en >= 75 %}
+        <td style="border: 1px solid #dddddd; color:#FF0000; width: 50%">{{en}}%</td>
+      {% else %}
+        <td style="border: 1px solid #dddddd;  width: 50%">{{en}}%</td>
+      {% endif %}
+      {% if enValue == "Alto" %}
+        <td style="border: 1px solid #dddddd; color:#FF0000; width: 50%">{{enValue}}</td>
+      {% else %}
+        <td style="border: 1px solid #dddddd;  width: 50%">{{enValue}}</td>
+      {% endif %}
+    </tr>
+    </tbody>
+</table>
+<br>
+<h3>12.- {% trans 'EXPECTATIVA DE SER RECHAZADO (PN)' %}</h3>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col" >{% trans 'VALOR' %} PN</th>
+        <th scope="col" >{% trans 'NIVEL' %} PN</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      {% if pn >= 75 %}
+        <td style="border: 1px solid #dddddd; color:#FF0000; width: 50%">{{pn}}%</td>
+      {% else %}
+        <td style="border: 1px solid #dddddd;  width: 50%">{{pn}}%</td>
+      {% endif %}
+
+      {% if pnValue == high %}
+        <td style="border: 1px solid #dddddd; color:#FF0000; width: 50%">{{pnValue}}</td>
+      {% else %}
+        <td style="border: 1px solid #dddddd;  width: 50%">{{pnValue}}</td>
+      {% endif %}
+    </tr>
+    </tbody>
+</table>
+<br>
+<h3>13.- {% trans 'GRADO DE ACIERTO EN LA EXPECTATIVA DE SER RECHAZADO (PAN)' %}</h3>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col" >{% trans 'VALOR' %} PAN</th>
+        <th scope="col" >{% trans 'NIVEL' %} PAN</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td style="border: 1px solid #dddddd;  width: 50%">{{pan}}%</td>
+        <td style="border: 1px solid #dddddd;  width: 50%">{{panValue}}</td>
+    </tr>
+    </tbody>
+</table>
+<br>
+<h3>14.- {% trans 'OPOSICIÓN ENTRE LA EXPECTATIVA DE SER RECHAZADO A LA REALIDAD DE SER ELEGIDO (OIN)' %}</h3>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col" >{% trans 'NOMBRE'%}</th>
+        <th scope="col" >{% trans 'GRADO'%}</th>
+    </tr>
+    </thead>
+    <tbody>
+    {%for oinuser, data in oin.items%}
+    <tr>
+        <td style="border: 1px solid #dddddd; width: 50%">{{oinuser.nombre}} {{oinuser.apellidos}}</td>
+        <td style="border: 1px solid #dddddd; width: 50%">{{data.1}}-{{data.2}}</td>
+    </tr>
+    {%endfor%}
+    {%if not oin.items%}
+    <tr>
+        <td style="border: 1px solid #dddddd" colspan=2>{% trans 'No hay' %}</td>
+    </tr>
+    {%endif%}
+    </tbody>
+</table>
+<br>
+<h3>15.- {% trans 'IMPRESIÓN QUE TIENE EL GRUPO DE SER ELEGIDO POR EL/ELLA (IP E IMP)' %}</h3>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col" >{% trans 'VALOR' %} IP</th>
+        <th scope="col" >{% trans 'NIVEL' %} IP</th>
+        <th scope="col" >{% trans 'VALOR' %} IMP</th>
+        <th scope="col" >{% trans 'NIVEL' %} IMP</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+
+      {% if ipValue == low %}
+        <td style="border: 1px solid #dddddd; color:#FF0000; width: 25%">{{ip}}</td>
+        <td style="border: 1px solid #dddddd; color:#FF0000; width: 25%">{{ipValue}}</td>
+      {% else %}
+        <td style="border: 1px solid #dddddd;  width: 25%">{{ip}}</td>
+        <td style="border: 1px solid #dddddd;  width: 25%">{{ipValue}}</td>
+      {% endif %}
+
+      {% if imp >= 75 %}
+        <td style="border: 1px solid #dddddd; color:#FF0000; width: 25%">{{imp}}%</td>
+      {% else %}
+        <td style="border: 1px solid #dddddd;  width: 25%">{{imp}}%</td>
+      {% endif %}
+
+      {% if impValue == high %}
+        <td style="border: 1px solid #dddddd; color:#FF0000; width: 25%">{{impValue}}</td>
+      {% else %}
+        <td style="border: 1px solid #dddddd;  width: 25%">{{impValue}}</td>
+      {% endif %}
+
+    </tr>
+    </tbody>
+</table>
+<br>
+<h3>16.- {% trans 'IMPRESIÓN QUE TIENE EL GRUPO DE SER RECHAZADO POR EL/ELLA (IN E IMN)' %}</h3>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col" >{% trans 'VALOR' %} IN</th>
+        <th scope="col" >{% trans 'NIVEL' %} IN</th>
+        <th scope="col" >{% trans 'VALOR' %} IMN</th>
+        <th scope="col" >{% trans 'NIVEL' %} IMN</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td style="border: 1px solid #dddddd;  width: 25%">{{in}}</td>
+      {% if inValue == high %}
+        <td style="border: 1px solid #dddddd; color:#FF0000; width: 25%">{{inValue}}</td>
+      {% else %}
+        <td style="border: 1px solid #dddddd;  width: 25%">{{inValue}}</td>
+      {% endif %}
+
+      {% if imn >= 75 %}
+        <td style="border: 1px solid #dddddd; color:#FF0000; width: 25%">{{imn}}%</td>
+      {% else %}
+        <td style="border: 1px solid #dddddd;  width: 25%">{{imn}}%</td>
+      {% endif %}
+
+      {% if imnValue == high %}
+        <td style="border: 1px solid #dddddd; color:#FF0000; width: 25%">{{imnValue}}</td>
+      {% else %}
+        <td style="border: 1px solid #dddddd;  width: 25%">{{imnValue}}</td>
+      {% endif %}
+    </tr>
+    </tbody>
+</table>
+<br>
+<h3>17.- {% trans 'NIVEL DE PREFERENCIA SOCIAL POSITIVA (IPP): LÍDER' %}</h3>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col" >{% trans 'VALOR' %} IPP</th>
+        <th scope="col" >{% trans 'NIVEL' %} IPP</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      {% if ipp >= 75 %}
+        <td style="border: 1px solid #dddddd; color:#FF0000; width: 50%">{{ipp}}%</td>
+      {% else %}
+        <td style="border: 1px solid #dddddd;  width: 50%">{{ipp}}%</td>
+      {% endif %}
+
+      {% if ippValue == high %}
+        <td style="border: 1px solid #dddddd; color:#FF0000; width: 50%">{{ippValue}}</td>
+      {% else %}
+        <td style="border: 1px solid #dddddd;  width: 50%">{{ippValue}}</td>
+      {% endif %}
+    </tr>
+    </tbody>
+</table>
+<br>
+<h3>18.- {% trans 'NIVEL DE PREFERENCIA SOCIAL NEGATIVA (IPN): PESADO' %}</h3>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col" >{% trans 'VALOR' %} IPN</th>
+        <th scope="col" >{% trans 'NIVEL' %} IPN</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      {% if ipn >= 75 %}
+        <td style="border: 1px solid #dddddd; color:#FF0000; width: 50%">{{ipn}}%</td>
+      {% else %}
+        <td style="border: 1px solid #dddddd;  width: 50%">{{ipn}}%</td>
+      {% endif %}
+
+      {% if ipnValue == high %}
+        <td style="border: 1px solid #dddddd; color:#FF0000; width: 50%">{{ipnValue}}</td>
+      {% else %}
+        <td style="border: 1px solid #dddddd;  width: 50%">{{ipnValue}}</td>
+      {% endif %}
+    </tr>
+    </tbody>
+</table>
+<br>
+<h3>{% trans 'Propuesta de intervención' %}</h3>
+<fieldset>
+    <legend>{% trans 'Áreas' %}</legend>
+    <br>
+    <div align="left" style="font-size:large; border: 1px solid silver">
+        <ul>
+        {%for vari, valueVari in recomendaciones.items%} <!-- vari es nombre de variable -->
+          
+          {%if valueVari|not_empty%}
+          <br>
+          <br>
+          <li><b>{{vari}}</b>: {{valueVari|return_des}}</li>
+            <ul>
+            <br>
+          {%endif%}
+              {%for variNum, valueVariNum in valueVari.items%}
+                {%for areaEx, valueAreaEx in valueVariNum.items%} <!-- areaEx es nombre de categoria -->
+                  {%if valueAreaEx|not_empty_ex%}
+                    <li><i>{{areaEx}}</i></li>
+                      <ul>
+                  {%endif%}
+                    {%for areaInNum, valueAreaIn in valueAreaEx.items%} 
+                      {%for areaIn, valueAreaAns in valueAreaIn.items%} <!-- areaIn es nombre de problema -->
+                        {%for areaIn, valueAreaAns in valueAreaIn.items%}
+                          {%for ans, link in valueAreaAns.items%}
+                                  
+                            <li><a href={{link.0}}>{{areaIn}}</a></li>
+                              <ul>
+
+                                {%for motivo in link%}
+                                  {%if forloop.counter > 2%}
+                                      {%if motivo != ''%}<li>{{motivo}}</li>{%endif%}
+                                  {%endif%}
+                                {%endfor%}
+                              </ul>
+                          {%endfor%}
+                        {%endfor%}
+                      {%endfor%}
+                    {%endfor%}
+                    {%if valueAreaEx|not_empty_ex%}
+                      </ul>
+                      <br>
+                    {%endif%}
+                {%endfor%}
+              {%endfor%}
+              {%if valueVari|not_empty%}
+                </ul>
+              {%endif%}
+        {%endfor%}
+        </ul>
+    </div>
+</fieldset>
+<br>
+{%endblock%}

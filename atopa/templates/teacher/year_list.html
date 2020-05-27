@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% load octicons %}
+{% load i18n %}
+
+{% block content %}
+
+<div class="container">
+    <h2>{% trans "AÑO ACADÉMICO" %}</h2>
+    <div class="panel-group" id="accordion" role="tablist">
+        <div class="panel panel-default">
+            {% for year in years %}
+            <div class="panel-heading">
+                <a href="{% url 'menu' year.pk %}" class="list-quiz">
+                <li class="list-group-item">{{ year }}
+                </li>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}

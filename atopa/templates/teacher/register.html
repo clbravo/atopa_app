@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load widget_tweaks %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block content %}
+<h2>{% trans 'Registro' %}</h2>
+  <br>
+  <form class="form-horizontal" method="post" novalidate>
+    {% csrf_token %}
+    {% if form.non_field_errors %}
+    <div class="bg-danger">
+      {% for error in form.non_field_errors %}
+      {{ error }}
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {% for field in form.visible_fields %}
+
+    {% if form.is_bound %}
+    {% if field.errors or form.non_field_errors%}
+    <div class="form-group has-error has-feedback">
+    {%if "ATOPA" in field.label_tag%}
+      <div class="col-sm-6">
+        {{ field.label_tag }}
+      </div>
+      <div class="col-sm-6">
+        {% render_field field %}
+        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+        {% for error in field.errors %}
+        <div class="bg-danger"> <!-- text-danger -->
+          {{ error }}
+        </div>
+        {% endfor %}
+      </div>
+      {%else%}
+      <div class="col-sm-2">
+        {{ field.label_tag }}
+      </div>
+      <div class="col-sm-10">
+        {% render_field field class="form-control" %}
+        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+        {% for error in field.errors %}
+        <div class="bg-danger"> <!-- text-danger -->
+          {{ error }}
+        </div>
+        {% endfor %}
+      </div>
+      {%endif%}
+      {% else %}
+      <div class="form-group has-success has-feedback">
+        {%if "ATOPA" in field.label_tag%}
+      <div class="col-sm-6">
+        {{ field.label_tag }}
+      </div>
+      <div class="col-sm-6">
+        {% render_field field %}
+        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+      </div>
+      {%else%}
+      <div class="col-sm-2">
+        {{ field.label_tag }}
+      </div>
+      <div class="col-sm-10">
+        {% render_field field class="form-control" %}
+        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+      </div>
+      {%endif%}
+        {% endif %}
+        {% else %}
+        <div class="form-group">
+          {%if "ATOPA" in field.label_tag%}
+          <div class="col-sm-6">
+            {{ field.label_tag }}
+          </div>
+          <div class="col-sm-6">
+            {% render_field field %}
+          </div>
+          {%else%}
+            <div class="col-sm-2">
+              {{ field.label_tag }}
+            </div>
+            <div class="col-sm-10">
+              {% render_field field class="form-control" %}
+            </div>
+            {%endif%}
+          {% endif %}
+
+          {% if field.help_text %}
+          <small class="form-text text-muted">{{ field.help_text }}</small>
+          {% endif %}
+        </div>
+        <br>
+        {% endfor %}
+        <div class="container" style="border-top-style: dotted;border-right-style: solid;border-bottom-style: dotted;border-left-style: solid;width:70%;text-align:center;">
+          <p>{%trans 'Don/Doña'%} <span id="nombrepro"></span>, {%trans 'como profesor/a de los alumnos/as evaluados/as declaro que me hago responsable de la custodia de los nombres de usuario y contraseñas del alumnado que va a utilizar Atopa, así como de los datos obtenidos de los cuestionarios que se realicen con la aplicación.'%}</p>
+          <label><input type="checkbox" id="cbox1" value="first_checkbox"> {% trans 'Acepto las condiciones'%}</label>
+        </div>
+        <br>
+        <label><input type="checkbox" id="cbox2" value="first_checkbox"> {% trans 'He leído y acepto los'%} <a href="https://www.atopa.es/pdd.html" target="_blank">{% trans 'Términos y condiciones y la Política de Privacidad'%}</a></label>
+        <br>
+        <br>
+        <button id="submitB" class="btn btn-default" type="submit" disabled>{% trans 'Siguiente'%}</button>
+        <a href="{%url 'login'%}" role="button" class="btn btn-default">{% trans 'Volver' %}</a>
+  </form>
+<script type="text/javascript">
+  document.getElementById("cbox1").addEventListener("click", checked);
+  document.getElementById("cbox2").addEventListener("click", checked);
+function checked() {
+  if (document.getElementById('cbox1').checked && document.getElementById('cbox2').checked)
+  {
+      document.getElementById('submitB').disabled = false;
+  } else {
+      document.getElementById('submitB').disabled = true;
+  }
+}
+function changename() {
+  var name = document.getElementsByName('nombre')[0].value;
+  var apellidos = document.getElementsByName('apellidos')[0].value;
+  var span = document.getElementById('nombrepro')
+  while (span.firstChild) {
+    span.removeChild(span.firstChild);
+  }
+  span.appendChild(document.createTextNode(name + " " + apellidos));
+}
+</script>
+{% endblock %}

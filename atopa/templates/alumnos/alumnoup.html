@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block content %}
+{% load octicons %}
+{% load i18n %}
+{% load widget_tweaks %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+{{ block.super }}
+{% breadcrumb "Home" "home" %}
+{% breadcrumb "Menú" "menu" year%}
+{% breadcrumb "Alumnos" 'estudiantes' year%}
+{% breadcrumb "Añadir Alumno" 'crear_alumno' %}
+{% endblock %}
+<div>
+    <h2>{% trans 'Añadir un alumno a tests ya creados' %}</h2>
+    <p>{% trans "Por seguridad antes deberá confirmar los datos con los que se registró en nuestra plataforma." %}</p>
+</div>
+<form class="form-horizontal" method="post" novalidate>
+    {% csrf_token %}
+    {% if form.non_field_errors %}
+    <div class="bg-danger">
+        {% for error in form.non_field_errors %}
+        {{ error }}
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% for field in form.visible_fields %}
+
+    {% if form.is_bound %}
+    {% if field.errors or form.non_field_errors%}
+    <div class="form-group has-error has-feedback">
+        <div class="col-sm-2">
+            {{ field.label_tag }}
+        </div>
+        <div class="col-sm-10">
+            {% render_field field class="form-control" %}
+            <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+            {% for error in field.errors %}
+            <div class="bg-danger"> <!-- text-danger -->
+                {{ error }}
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="form-group has-success has-feedback">
+            <div class="col-sm-2">
+                {{ field.label_tag }}
+            </div>
+            <div class="col-sm-10">
+                {% render_field field class="form-control" %}
+                <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+            </div>
+            {% endif %}
+            {% else %}
+            <div class="form-group">
+                <div class="col-sm-2">
+                    {{ field.label_tag }}
+                </div>
+                <div class="col-sm-10">
+                    {% render_field field class="form-control" %}
+                </div>
+                {% endif %}
+
+                {% if field.help_text %}
+                <small class="form-text text-muted">{{ field.help_text }}</small>
+                {% endif %}
+            </div>
+            <br>
+            {% endfor %}
+    <button type="submit" value="{% trans 'Login' %}" class="btn btn-primary btn-lg" id="load" data-loading-text="<i class='fa fa-spinner fa-spin '></i> Uploading">{% octicon "cloud-upload" %}</button>
+    <a href="{%url 'estudiantes' year%}" role="button" class="btn btn-default">{% trans 'Cancelar' %}</a>
+
+</form>
+
+<script>
+  
+  $('.btn').on('click', function() {
+  var $this = $(this);
+  var $email = document.getElementById('id_email');
+  var $pass = document.getElementById('id_password');
+  if($email.value.length>0 && $pass.value.length>0){
+  $this.button('loading');
+  }
+
+  });
+  </script>
+{% endblock %}

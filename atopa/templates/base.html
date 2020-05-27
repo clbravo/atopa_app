@@ -1,0 +1,103 @@
+{% load static %}
+{% load i18n %}
+
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+    {% clear_breadcrumbs %}
+{% endblock %}
+
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+
+
+<html>
+  <head>
+    <title>Atopa</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'base.css' %}">
+
+    <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
+  
+  </head>
+  <body>
+    <header style="max-height:90px">
+      <div style="display: inline-block">
+	<a href="/"><img src="{% static 'topomenu.png' %}" alt="logotopo" width="90"/></a>
+      </div>
+      {% get_current_language as LANGUAGE_CODE %}
+      {% get_available_languages as LANGUAGES %}
+      
+      {% if LANGUAGES|length > 1 %}
+      <form action="{% url "set_language" %}" method="post" class="navbar-form navbar-right">
+	{% csrf_token %}
+	<div class="form-group" style="display: inline-block; line-height:50px">
+	  <select name="language" class="form-control" onchange="this.form.submit()">
+	    {% for language in LANGUAGES %}
+	    <option value="{{ language.0 }}"
+		    {% if language.0 == LANGUAGE_CODE %} selected="selected"{% endif %}>
+              {{ language.1 }}
+	    </option>
+	    {% endfor %}
+	  </select>
+        {%if request.path != '/register/' and 'accounts' not in request.path and 'password' not in request.path%}
+        <a href="{%url 'logout'%}" role="button" class="btn btn-default">{% trans 'Cerrar sesión' %}</a>
+        {%endif%}
+	</div>
+      </form>
+      {% endif %}
+
+      
+    </header>
+    {% block content_bread %}
+    {% render_breadcrumbs %}
+{% endblock %}
+
+
+    <div class="content">
+    {% block content %}
+    {% endblock %}    
+    </div>
+    
+     <footer>
+         <div class="container">
+             <div class="row">
+                 <div class="columnPic">
+                   <a href="https://teavieducacion.blogspot.com" target="_blank">
+                     <img src="{% static 'teavi_logo2white.png' %}" width="200">
+                   </a>
+                 </div>
+                 <div class="columnLink">
+                     <a class="link" href="https://www.atopa.es/pdd.html" target="_blank">Protección de datos</a>
+                     <a class="link" href="https://www.atopa.es/contacto.html" target="_blank">Participa</a>
+                     <a class="link" href="https://www.atopa.es/agradecimientos.html" target="_blank">Agradecimientos</a>
+                 </div>
+             </div>
+         </div>
+     </footer>
+
+    
+  </body>
+<style>
+    .link {
+        color: #d9d9d9;
+        padding-left: 10px;
+        font-size: 120%;
+    }
+    .link:hover {
+        color: #ffffff;
+    }
+    .columnPic {
+        float: left;
+        width: 60%;
+    }
+    .columnLink {
+        padding-top: 14px;
+        display:inline-block;
+    }
+</style>
+</html>

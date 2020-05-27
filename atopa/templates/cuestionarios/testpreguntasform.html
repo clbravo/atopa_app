@@ -1,0 +1,75 @@
+{% extends "../base.html" %}
+{% block content %}
+{% load widget_tweaks %}
+{% load i18n %}
+{% load django_bootstrap_breadcrumbs %}
+{% block breadcrumbs %}
+{{ block.super }}
+{% breadcrumb "Home" "home" %}
+{% breadcrumb "Menú" "menu" year %}
+{% breadcrumb "Cuestionarios" "testlist" year%}
+{% breadcrumb "Crear Cuestionario" "crear_test" %}
+{% endblock %}
+<form class="form-horizontal" method="post" novalidate>
+  {% csrf_token %}
+  
+  {% for key, preguntas in preguntasForm.items %}
+  {% if preguntas.non_field_errors %}
+        <div class="bg-danger">
+        {% for error in preguntas.non_field_errors %}
+            {{ error }}
+        {% endfor %}
+        </div>
+    {% endif %}
+
+  {% for field in preguntas.visible_fields %}
+
+      {% if preguntas.is_bound %}
+        {% if field.errors %}
+        <div class="form-group has-error has-feedback">
+            <div class="col-sm-2">
+                {{ field.label_tag }}
+            </div>
+            <div class="col-sm-10">
+              <p>{{key.descripcion}}</p>
+              {% blocktrans %} {{ field }} {% endblocktrans %}
+                <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                {% for error in field.errors %}
+                    <div class="bg-danger"> <!-- text-danger -->
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+        <div class="form-group has-success has-feedback">
+            <div class="col-sm-2">
+                {{ field.label_tag }}
+            </div>
+            <div class="col-sm-10">
+              <p>{{key.descripcion}}</p>
+              {% blocktrans %} {{ field }} {% endblocktrans %}
+                <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+            </div>
+        {% endif %}
+      {% else %}
+      <div class="form-group">
+        <div class="col-sm-2">
+        {{ field.label_tag }}
+        </div>
+        <div class="col-sm-10">
+          <p>{{key.descripcion}}</p>
+          {% blocktrans %} {{ field }} {% endblocktrans %}
+        </div>
+      {% endif %}
+
+      {% if field.help_text %}
+        <small class="form-text text-muted">{{ field.help_text }}</small>
+      {% endif %}
+    </div>
+    <br>
+  {% endfor %}
+{% endfor %}
+  <button type="submit" value="Submit" class="btn btn-default">{% trans 'Guardar' %}</button>
+  <a href="{%url 'testlist' year%}" role="button" class="btn btn-default">{% trans 'Cancelar' %}</a>
+</form>
+{% endblock %}

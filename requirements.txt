@@ -1,0 +1,10 @@
+Django
+requests
+django-bootstrap4
+django-mysql
+django-octicons
+django-crispy-forms
+django_bootstrap_breadcrumbs
+reportlab
+django-widget-tweaks
+gunicorn

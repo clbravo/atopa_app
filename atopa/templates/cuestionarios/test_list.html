@@ -1,0 +1,187 @@
+{% extends "base.html" %}
+{% load octicons %}
+{% load i18n %}
+{% load django_bootstrap_breadcrumbs %}
+{% block content %}
+
+    {% block breadcrumbs %}
+        {{ block.super }}
+        {% breadcrumb "Home" "home" %}
+        {% breadcrumb "Menú" "menu" year%}
+        {% breadcrumb "Cuestionarios" "testlist" %}
+    {% endblock %}
+
+<div class="container">
+  <h2>{% trans "TESTS" %}</h2>
+  <div class="buttons-list">
+    <a role="button" class="btn btn-default" href="{% url 'crear_test' year%}">{% trans "Añadir Test" %}</a>
+  </div>
+
+    <div class="panel-group" id="accordion" role="tablist">
+        <div class="panel panel-default">
+            {% for num, tests in info.items %}
+            {% for test, alumnos in tests.items %}
+            <div class="panel-heading" role="tab">
+                <a data-toggle="collapse" href="#{{test.pk }}" data-parent="#accordion" class="list-quiz">
+                    <li class="list-group-item">{{ test.nombre }}
+                    {%if eva%}
+                        <a {% if test.downloaded and not test.survey1 and not test.first%}href="{% url 'survey1' test.pk year%}"{%endif%} {% if test.downloaded and not test.survey2 and test.first%}href="{% url 'survey2' test.pk year%}"{%endif%} class="btn btn-default options" {% if not test.downloaded %} disabled {%endif%} {% if not test.first and test.survey1%} disabled {%endif%} {% if test.first and test.survey2%} disabled {%endif%}role="button"
+                                    title="{% trans 'Evaluar la aplicación' %}">{% octicon "thumbsup" %}
+                        </a>
+                    {%endif%}
+                        <a {% if test.closed and not test.followUp%}href="{% url 'secondtest' test.pk year%}"{%endif%} class="btn btn-default options" {% if not test.closed or test.followUp%}disabled{%endif%} role="button"
+                                    title="{% trans 'Crear test de seguimiento' %}">{% octicon "checklist" %}
+                        <a data-toggle="modal" {% if not test.closed and test.downloaded%} data-target="#ModalCenterClose{{ test.pk }}"{%endif%} class="btn btn-default delete" {% if test.closed or not test.downloaded%}disabled{%endif%} role="button"
+                                    title="{% trans 'Cerrar cuestionario' %}">{% octicon "x" %}
+                        </a>
+                        <a data-toggle="modal" {% if not test.followUp or not test.final%} data-target="#ModalCenter{{ test.pk }}"{%endif%} class="btn btn-default delete" {% if test.followUp and test.final%}disabled{%endif%} role="button"
+                                    title="{% trans 'Borrar cuestionario' %}">{% octicon "trashcan" %}
+                        </a>
+                        <a {% if not test.uploaded %}href="{% url 'testupdate' test.pk year%}"{%endif%} class="btn btn-default options" {% if test.uploaded %}disabled{%endif%} role="button"
+                                    title="{% trans 'Editar cuestionario' %}">{% octicon "pencil" %}
+                        </a>
+                        <a {% if test.downloaded %}href="{% url 'resultados' test.pk year%}"{%endif%} class="btn btn-default options" {% if not test.downloaded %}disabled{%endif%} role="button"
+                                    title="{% trans 'Visualizar resultados' %}">{% octicon "eye" %}
+                        </a>
+                        <a {% if test.downloaded %}href="{% url 'resultadosTodosPdf' test.pk year%}"{%endif%} class="btn btn-default options" {% if not test.downloaded %}disabled{%endif%} role="button"
+                                    title="{% trans 'Descargar todos los resultados individuales' %}">{% octicon "diff" %}
+                        </a>
+                        <a {% if test.uploaded and not test.closed %}href="{% url 'testdownload' test.pk year%}"{%endif%} class="btn btn-default options" {% if not test.uploaded or test.closed %}disabled{%endif%} role="button"
+                                    title="{% trans 'Descargar resultados' %}">{% octicon "cloud-download" %}
+                        </a>
+                        <a {% if test.uploaded %} href="{% url 'codedownload' test.pk %}"{%endif%} class="btn btn-default options" {% if not test.uploaded %}disabled{%endif%} role="button"
+                                    title="{% trans 'Descargar códigos' %}">{% octicon "desktop-download" %}
+                        </a>
+                        <a {% if not test.uploaded %} href="{% url 'testupload' test.pk year%}"{%endif%} class="btn btn-default options" {% if test.uploaded %}disabled{%endif%} role="button"
+                                    title="{% trans 'Subir test' %}">{% octicon "cloud-upload" %}
+                        </a>
+                    </li>
+                </a>
+
+                <!-- Modal -->
+                <div class="modal fade" id="ModalCenter{{ test.pk }}" tabindex="-1" role="dialog"
+                     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">{% trans "Borrar" %}</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="{% url 'testdelete' test.pk year%}" method="get">{% csrf_token %}
+                                    <p>{% trans '¿Está seguro de que quiere borrar' %} {{test.nombre}}?</p>
+                                    <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">{% trans "Cancelar" %}</button>
+                                    <button type="submit" value="Confirm" class="btn btn-primary"
+                                            style="background-color:red">{% trans "Borrar" %}</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Modal -->
+                <!-- Modal -->
+                <div class="modal fade" id="ModalCenterClose{{ test.pk }}" tabindex="-1" role="dialog"
+                     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalCloseLongTitle">{% trans "Borrar" %}</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="{% url 'testclose' test.pk year%}" method="get">{% csrf_token %}
+                                    <p>{% trans '¿Está seguro de que quiere cerrar' %} {{test.nombre}}?</p>
+                                    <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">{% trans "Cancelar" %}</button>
+                                    <button type="submit" value="Confirm" class="btn btn-primary"
+                                            style="background-color:red">{% trans "Cerrar" %}</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Modal -->
+            </div>
+            <div id="{{ test.pk }}" class="panel-collapse collapse">
+                <ul class="list-group">
+                    {% for alumno in alumnos %}
+                    {% if test.downloaded and alumno.answer%}
+                    <a href="{% url 'resultadosAlumno' test.pk alumno.username year%}">
+                        <li class="list-group-item">{{ alumno.get_nombre }} {{alumno.get_apellidos}}
+                            <a href="{% url 'resultadosAlumnoPdf' test.pk alumno.username year%}" class="btn btn-default options" role="button"
+                                        title="{% trans "Descargar resultados" %}">{% octicon "desktop-download" %}
+                            </a>
+                            <a href="{% url 'resultadosAlumno' test.pk alumno.username year%}" class="btn btn-default options" role="button"
+                                        title="{% trans "Visualizar resultados" %}">{% octicon "eye" %}
+                            </a>
+                        </li>
+                    </a>
+                    {%else%}
+                    <li class="list-group-item">{{ alumno.get_nombre }} {{alumno.get_apellidos}}
+                    </li>
+                    {%endif%}
+                    {%empty%}
+                    <li class="list-group-item"> {% trans 'Se debe subir el cuestionario al servidor para ver los alumnos'%}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endfor %}
+            {% empty %}
+            <li class="list-group-item"> {% trans 'No hay tests'%}</li>
+            {% endfor %}
+            </div>
+            </div>
+    <script>
+        function comprobarnavegador() {
+            if({{confirm}} == 1)
+            {
+                if ({{no}} == 1) {
+                    alert("Todavía no hay respuestas para este test");
+                } else {
+                    alert("Se ha descargado correctamente. Por favor, recuerde evaluar la aplicación.");
+                }
+            } else if ({{confirmUp}} == 1)
+            {
+                alert("Se ha subido correctamente.");
+            }
+
+          }
+      window.onload = comprobarnavegador;
+    </script>
+    </div>
+<style>
+.options {
+    float:right;
+    line-height: 15px;
+    background-color: #d4d4d4;
+    border-color: #adadad;
+    box-shadow: inset 0 3px 5px rgba(0,0,0,.125);
+}
+.delete {
+    float:right;
+    line-height: 15px;
+    background-color: #d4d4d4;
+    border-color: #adadad;
+    box-shadow: inset 0 3px 5px rgba(0,0,0,.125);
+}
+.options:hover {
+    fill:green;
+}
+.delete:hover {
+    fill:red
+}
+.btn-default.disabled:hover, .btn-default[disabled]:hover, fieldset[disabled] .btn-default:hover {
+    fill: #adadad;
+}
+.btn-default.disabled, .btn-default[disabled], fieldset[disabled] .btn-default {
+    background-color: #fff;
+    border-color: #ddd;
+    fill: #adadad;
+}
+</style>
+{% endblock %}

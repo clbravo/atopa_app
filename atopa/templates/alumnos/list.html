@@ -1,0 +1,196 @@
+{% extends "base.html" %}
+
+{% load octicons %}
+{% load i18n %}
+{% load django_bootstrap_breadcrumbs %}
+{% load widget_tweaks %}
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb "Home" "home" %}
+    {% breadcrumb "Menú" 'menu' year %}
+    {% breadcrumb "Alumnos" "estudiantes" %}
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <h2>{% trans "ALUMNOS" %}</h2>
+    <div class="buttons-list">
+        <a role="button" class="btn btn-default" href="{%url 'crear_clase' year%}">{% trans "Añadir Clase" %}</a>
+    </div>
+    <div class="panel-group" id="accordion" role="tablist">
+        <div class="panel panel-default">
+            {% for num, clases in info.items %}
+            {% for key, alumnos in clases.items %}
+                <div class="panel-heading">
+                    <form style="display: inline;" action="{% url 'importar_alumnos' year%}?clase={{ key.pk}}" method="POST" enctype="multipart/form-data">
+                    <a data-toggle="collapse" href="#{{key.pk}}" class="list-quiz" data-parent="#accordion">
+                        <li class="list-group-item">{{ key }}
+                            <a data-toggle="modal" data-target="#ModalCenter{{ key.pk }}" class="btn btn-default delete" role="button"
+                                        title="{% trans 'Eliminar clase' %}">{% octicon "trashcan" %}
+                            </a>
+                            {%if key.modify%}
+                            <a href="{% url 'claseupdate' key.pk year %}"
+                                class="btn btn-default options" role="button"
+                                        title="{% trans 'Editar clase' %}">{% octicon "pencil" %}
+                            </a>
+                            {%else%}
+                            <a href="{% url 'claseupdate2' key.pk year %}"
+                                class="btn btn-default options" role="button"
+                                        title="{% trans 'Editar clase' %}">{% octicon "pencil" %}
+                            </a>
+                            {%endif%}
+                            <a href="{% url 'crear_alumno' year %}?clase={{ key.pk }}"
+                            class="btn btn-default options" role="button" title="{% trans 'Añadir un alumno' %}">{% octicon "plus" %}
+                            </a>
+                            
+                            <button class="fileUpload btn btn-default options" title="{% trans 'Importar alumnos' %}" {% if not key.modify %}disabled{%endif%}>{% octicon "clippy" %}
+                                    {% csrf_token %}
+                                {% if key.modify %}
+                                    {% for field in alumnos.1.visible_fields %}
+                                    {% render_field field class="upload" %}
+                                    {%endfor%}
+                                {%endif%}
+
+                            </button>
+                            <a href="{% url 'tests' key.pk year%}" class="btn btn-default options" role="button"
+                                        title="{% trans 'Visualizar resultados' %}">{% octicon "eye" %}
+                            </a>
+                            <noscript><input type="submit" name="Submit1" id="Submit1"></noscript>
+                        </li>
+                    </a>
+                </form>
+                    <!-- Modal -->
+                    <div class="modal fade" id="ModalCenter{{ key.pk }}" tabindex="-1" role="dialog"
+                         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">{% trans 'Borrar' %}</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="{% url 'clasedelete' key.pk year%}" method="get">{% csrf_token %}
+                                        <p>{% blocktrans %}"¿Está seguro de que quiere borrar {{ key }}?"{% endblocktrans %}</p>
+                                        <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">{% trans "Cancelar" %}</button>
+                                        <button type="submit" value="Confirm" class="btn btn-primary"
+                                                style="background-color:red">{% trans "Borrar" %}</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Modal -->
+
+                </div>
+                <div id="{{ key.pk}}" class="panel-collapse collapse">
+                    <ul class="list-group">
+                        {% for alumno in alumnos.0 %}
+                        {%if key.modify%}
+                            <a href="{% url 'alumnoupdate' alumno.pk year %}">
+                                <li class="list-group-item">{{ alumno.nombre }} {{alumno.apellidos}}
+                                    <a data-toggle="modal" data-target="#ModalCenterAlumno{{ alumno.pk }}" class="btn btn-default delete" role="button"
+                                                title="{% trans 'Eliminar alumno' %}">{% octicon "trashcan" %}
+                                    </a>
+                                </li>
+                            </a>
+                        {%else%}
+                                <li class="list-group-item">{{ alumno.nombre }} {{alumno.apellidos}}
+                                </li>
+                        {%endif%}
+                        <!-- Modal -->
+                        <div class="modal fade" id="ModalCenterAlumno{{ alumno.pk }}" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitleAlumno">{% trans 'Borrar' %}</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="{% url 'alumnodelete' alumno.pk year %}" method="post">{% csrf_token %}
+                                            <p>{% blocktrans %}"¿Está seguro de que quiere borrar {{ alumno }}?"{% endblocktrans %}</p>
+                                            <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">{% trans "Cancelar" %}</button>
+                                            <button type="submit" value="Confirm" class="btn btn-primary"
+                                                    style="background-color:red">{% trans "Borrar" %}</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Modal -->
+                        {%empty%}
+                        <li class="list-group-item"> {% trans 'No hay alumnos'%}</li>
+                        {% endfor %}
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% empty %}
+                <li class="list-group-item"> {% trans 'No hay clases'%}</li>
+                {% endfor %}
+        </div>
+    </div>
+</div>
+<style>
+.fileUpload {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+.fileUpload input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+.options {
+    float:right;
+    line-height: 15px;
+    background-color: #d4d4d4;
+    border-color: #adadad;
+    box-shadow: inset 0 3px 5px rgba(0,0,0,.125);
+}
+.delete {
+    float:right;
+    line-height: 15px;
+    background-color: #d4d4d4;
+    border-color: #adadad;
+    box-shadow: inset 0 3px 5px rgba(0,0,0,.125);
+}
+.options:hover {
+    fill:green;
+}
+.delete:hover {
+    fill:red
+}
+.btn-default.disabled:hover, .btn-default[disabled]:hover, fieldset[disabled] .btn-default:hover {
+    fill:#adadad
+}
+.btn-default.disabled, .btn-default[disabled], fieldset[disabled] .btn-default {
+    background-color: #fff;
+    border-color: #ddd;
+    fill: #adadad;
+}
+</style>
+<script>
+        function comprobarnavegador() {
+            if ({{alert}} == 1)
+            {
+                alert("{{msg}}");
+
+            }
+        }
+      window.onload = comprobarnavegador;
+</script>
+{% endblock %}
