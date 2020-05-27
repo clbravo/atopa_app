@@ -12,7 +12,7 @@ IF "%4"=="" (exit)
 
 IF NOT EXIST %ATOPA_APP_PATH% GOTO NOWINDIR
   CD %ATOPA_APP_PATH%
-  rem git pull
+  git pull
   GOTO FIN
 :NOWINDIR
 git clone --branch master %ATOPA_APP_URL%
@@ -30,6 +30,8 @@ echo ENV_MYSQL_ROOT_PASSWORD=%ATOPA_APP_PASS% >>.env
 
 
 "C:\Program Files (x86)\GnuWin32\bin\openssl.exe" req -x509 -newkey rsa:4096 -keyout atopa_key.pem -out atopa.pem -days 365 -nodes -config req.conf -sha256
+
+echo START https://%LOCAL_IP%:8020 >> ejecutar_atopa_app_windows.bat
 
 SET LF=^
 
