@@ -25,7 +25,7 @@ services:
     volumes:
       - .:/atopa
     ports:
-      - "0.0.0.0::443"
+      - "0.0.0.0:8020:443"
     depends_on:
       - db
     environment:
