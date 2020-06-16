@@ -45,6 +45,7 @@
 	    {% endfor %}
 	  </select>
         {%if request.path != '/register/' and 'accounts' not in request.path and 'password' not in request.path%}
+        <a href="{%url 'teacher' %}" role="button" class="btn btn-default">{% trans 'Cuenta' %}</a>
         <a href="{%url 'logout'%}" role="button" class="btn btn-default">{% trans 'Cerrar sesión' %}</a>
         {%endif%}
 	</div>

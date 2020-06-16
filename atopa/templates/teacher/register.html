@@ -6,6 +6,7 @@
 
 {% block content %}
 <h2>{% trans 'Registro' %}</h2>
+<p>{% trans "Debe haberse registrado primero en el servidor de nuestra plataforma." %}</p>
   <br>
   <form class="form-horizontal" method="post" novalidate>
     {% csrf_token %}

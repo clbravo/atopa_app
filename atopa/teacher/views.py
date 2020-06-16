@@ -8,6 +8,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from .forms import SignUpForm
+from .services import change_eva
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
@@ -15,6 +16,7 @@ import logging
 import datetime
 from .models import UserProfile, Year
 from django.db.models import Count, Q
+from cuestionarios.forms import LoginUploadForm
 
 log = logging.getLogger(__name__)
 
@@ -43,7 +45,10 @@ def register(request):
             teacher.evaluacion = evaluacion
             teacher.save()
             login(request, user)
-            return HttpResponseRedirect(reverse('home'))
+            if evaluacion:
+                return HttpResponseRedirect(reverse('evaluate'))
+            else:
+                return HttpResponseRedirect(reverse('home'))
     else:
         form = SignUpForm()
     return render(request, 'teacher/register.html', {'form': form})
@@ -51,6 +56,55 @@ def register(request):
 @login_required
 def menu(request,id):
     return render(request, 'teacher/menu.html', {'year': int(id)})
+
+@login_required
+def account(request):
+    teacherProfile = UserProfile.objects.get(user__username=str(request.user))
+    return render(request, 'teacher/profesorView.html', {'eva': teacherProfile.evaluacion})
+
+def noserver(request):
+    return render(request,
+                  'noserverteacher.html')
+
+@login_required
+def evaluate(request):
+    teacher = UserProfile.objects.get(user__username=request.user)
+    if request.method == 'POST':
+        form = LoginUploadForm(request.POST)
+        try:
+            if form.is_valid():
+                change_eva(teacher, form, 1)
+                teacher.evaluacion = True
+                teacher.save()
+                return render(request, 'teacher/profesorView.html', {'eva': teacher.evaluacion})
+        except Exception as e:
+            log.info(e)
+            return noserver(request)
+    else:
+        form = LoginUploadForm()
+    return render(request,
+                  'teacher/evaluate.html',
+                  {'form': form})
+
+@login_required
+def noevaluate(request):
+    teacher = UserProfile.objects.get(user__username=request.user)
+    if request.method == 'POST':
+        form = LoginUploadForm(request.POST)
+        try:
+            if form.is_valid():
+                change_eva(teacher, form, 2)
+                teacher.evaluacion = False
+                teacher.save()
+                return render(request, 'teacher/profesorView.html', {'eva': teacher.evaluacion})
+        except Exception as e:
+            log.info(e)
+            return noserver(request)
+    else:
+        form = LoginUploadForm()
+    return render(request,
+                  'teacher/noevaluate.html',
+                  {'form': form})
 
 @login_required
 def school_year_list(request):

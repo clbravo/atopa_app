@@ -3111,7 +3111,7 @@ def show_results_complete(request, test, year):
                                     col += 1
                                     for al in alumnos:
                                         for answers in respuestasNum[question][questionName][studentAnswer]:
-                                            if int(answers) == al.username:
+                                            if answers == al.username:
                                                 for an in respuestasNum[question][questionName][studentAnswer][answers]:
                                                     aux.append(respuestasNum[question][questionName][studentAnswer][answers][an])
                                                     style.append(('BACKGROUND',(col,row),(col,row), colors.HexColor(an)))
@@ -3440,7 +3440,7 @@ def show_results_complete(request, test, year):
             for a in alumnosInitials:
                 if alumnosInitials[a].username == al.username:
                     for student in matrix12:
-                        if int(student) == alumnosInitials[a].username:
+                        if student == alumnosInitials[a].username:
                             aux.append(a)
                             for ti in titlematrix12:
                                 for value in matrix12[student]:
@@ -3835,12 +3835,15 @@ def show_results_complete(request, test, year):
             for a in alumnosInitials:
                 if alumnosInitials[a].username == al.username:
                     for student in matrix34:
-                        if int(student) == alumnosInitials[a].username:
+                        if student == alumnosInitials[a].username:
                             aux.append(a)
                             for ti in titlematrix34:
                                 for value in matrix34[student]:
                                     if value == titlematrix34[ti]:
-                                        aux.append(str(matrix34[student][value]) + "%")
+                                        if value == "PP" or value == "PN":
+                                            aux.append(str(matrix34[student][value]) + "%")
+                                        else:
+                                            aux.append(str(matrix34[student][value]))
                             data.append(aux)
                             aux = []
 
@@ -4030,9 +4033,9 @@ def show_results_complete(request, test, year):
             for re in respuestasNum[ma]:
                 for al in respuestasNum[ma][re]:
                     useral = AlumnoTests.objects.get(idAl=al, idTest=test)
-                    matrixaux[ma][int(useral.username)] = {}
+                    matrixaux[ma][useral.username] = {}
                     for res in respuestasNum[ma][re][al]:
-                        matrixaux[ma][useral.username][int(res)] = respuestasNum[ma][re][al][res]
+                        matrixaux[ma][useral.username][res] = respuestasNum[ma][re][al][res]
 
 
         proposals = get_proposals(sp, np, nn, sn, spval, snval, imp, ipval, imn, inval, iN, ip, ipp, ipval5, ipn, inval6, data1, data2, data3, data4, n, matrix12aux, matrix34aux, matrixaux, '', {}, test.clase.grupo_edad_id)

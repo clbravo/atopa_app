@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+{% load octicons %}
+{% load i18n %}
+
+<div class="alert alert-danger">
+    <h3>{%trans 'El servidor no está disponible'%}</h3>
+    <h3>{%trans 'Por favor, inténtenlo de nuevo más tarde'%}</h3>
+  </div>
+  <a href="{%url 'teacher'%}" role="button" class="btn btn-default">{% trans 'Volver' %}</a>
+
+{%endblock%}

@@ -59,7 +59,7 @@
   <tbody>
   {%for alumno in alumnos%}
   {%for ini, alumnoini in initials.items%}
-  {%if alumno.username|add:0 == alumnoini.username|add:0%}
+  {%if alumno.username == alumnoini.username%}
   <tr>
   <td scope="row">{{ini}}</td>
   <td scope="row">{{alumnoini.get_nombre}} {{alumnoini.get_apellidos}}</td>
@@ -85,7 +85,7 @@
       <th scope="col">{{num}}#</th>
       {%for alumno in alumnos%}
       {%for ini,alumnoini in initials.items%}
-      {%if alumno.username|add:0 == alumnoini.username|add:0%}
+      {%if alumno.username == alumnoini.username %}
       <th scope="col">{{ini}}</th>
       {%endif%}
       {%endfor%}
@@ -95,14 +95,14 @@
   <tbody>
   {%for alumno in alumnos%}
   {%for ini, alumnoini in initials.items%}
-  {%if alumno.username|add:0 == alumnoini.username|add:0%}
+  {%if alumno.username == alumnoini.username %}
     {%for alumno_respo,respuesta in value.items%}
     {%if alumno_respo.id|add:0 == alumnoini.idAl.id|add:0%}
     <tr>
       <th style="border-bottom: 1px solid #dddddd;" scope="row">{{ini}}</th>
       {%for alumnoresult in alumnos%}
       {%for element,valor in respuesta.items%}
-      {%if element|add:0 == alumnoresult.username|add:0%}
+      {%if element == alumnoresult.username %}
       {%for color, v in valor.items%}
       <td style="border: 1px solid #dddddd;" bgcolor={{color}}>{{v}}</td>
       {%endfor%}
@@ -132,7 +132,7 @@
     <th scope="col">#</th>
     {%for alumno in alumnos%}
       {%for ini,alumnoini in initials.items%}
-      {%if alumno.username|add:0 == alumnoini.username|add:0%}
+      {%if alumno.username == alumnoini.username %}
       <th scope="col">{{ini}}</th>
       {%endif%}
       {%endfor%}
@@ -144,7 +144,7 @@
     <th scope="row">SP</th>
     {%for alumno in alumnos%}
     {%for user, n in sp.items%}
-    {%if user|add:0 == alumno.username|add:0%}
+    {%if user == alumno.username %}
     {% if n < spValue %}
     <td style="border: 1px solid #dddddd; color:#FF0000">{{n}}</td>
     {% else %}
@@ -158,7 +158,7 @@
     <th scope="row">SP val</th>
     {%for alumno in alumnos%}
     {%for user, n in spval.items%}
-    {%if user|add:0 == alumno.username|add:0%}
+    {%if user == alumno.username %}
     <td style="border: 1px solid #dddddd;">{{n}}</td>
     {%endif%}
     {%endfor%}
@@ -168,7 +168,7 @@
     <th style="border-bottom: 1px solid #dddddd;" scope="row">NP</th>
     {%for alumno in alumnos%}
     {%for user, n in np.items%}
-    {%if user|add:0 == alumno.username|add:0%}
+    {%if user == alumno.username %}
     {% if n <= 25 %}
     <td style="border: 1px solid #dddddd; color:#FF0000">{{n}}%</td>
     {% else %}
@@ -211,7 +211,7 @@
     <th scope="col">#</th>
     {%for alumno in alumnos%}
       {%for ini,alumnoini in initials.items%}
-      {%if alumno.username|add:0 == alumnoini.username|add:0%}
+      {%if alumno.username == alumnoini.username %}
       <th scope="col">{{ini}}</th>
       {%endif%}
       {%endfor%}
@@ -223,7 +223,7 @@
     <th scope="row">SN</th>
     {%for alumno in alumnos%}
     {%for user, n in sn.items%}
-    {%if user|add:0 == alumno.username|add:0%}
+    {%if user == alumno.username %}
     {% if n >= snValue %}
     <td style="border: 1px solid #dddddd; color:#FF0000">{{n}}</td>
     {% else %}
@@ -237,7 +237,7 @@
     <th scope="row">SN val</th>
     {%for alumno in alumnos%}
     {%for user, n in snval.items%}
-    {%if user|add:0 == alumno.username|add:0%}
+    {%if user == alumno.username %}
     <td style="border: 1px solid #dddddd;">{{n}}</td>
     {%endif%}
     {%endfor%}
@@ -247,7 +247,7 @@
     <th style="border-bottom: 1px solid #dddddd;" scope="row">NN</th>
     {%for alumno in alumnos%}
     {%for user, n in nn.items%}
-    {%if user|add:0 == alumno.username|add:0%}
+    {%if user == alumno.username %}
     {% if n >= 75 %}
     <td style="border: 1px solid #dddddd; color:#FF0000">{{n}}%</td>
     {% else %}
@@ -300,9 +300,9 @@
 
     {%for alumno in alumnos%}
     {%for ini,alumnoini in initials.items%}
-    {%if alumno.username|add:0 == alumnoini.username|add:0%}
+    {%if alumno.username == alumnoini.username %}
       {%for user, values in matrix12.items%}
-        {%if user|add:0 == alumnoini.username|add:0%}
+        {%if user == alumnoini.username %}
           <tr>
           <th scope="row">{{ini}}</th>
           {%for num1, nombre1 in title_matrix12.items%}
@@ -405,7 +405,7 @@
     <th scope="col">#</th>
     {%for alumno in alumnos%}
       {%for ini,alumnoini in initials.items%}
-      {%if alumno.username|add:0 == alumnoini.username|add:0%}
+      {%if alumno.username == alumnoini.username %}
       <th scope="col">{{ini}}</th>
       {%endif%}
       {%endfor%}
@@ -417,7 +417,7 @@
     <th scope="row">IP</th>
     {%for alumno in alumnos%}
     {%for user, n in ip.items%}
-    {%if user|add:0 == alumno.username|add:0%}
+    {%if user == alumno.username %}
     {% if n < ipValue %}
     <td style="border: 1px solid #dddddd; color:#FF0000">{{n}}</td>
     {% else %}
@@ -431,7 +431,7 @@
     <th scope="row">IP val</th>
     {%for alumno in alumnos%}
     {%for user, n in ipval.items%}
-    {%if user|add:0 == alumno.username|add:0%}
+    {%if user == alumno.username %}
     <td style="border: 1px solid #dddddd;">{{n}}</td>
     {%endif%}
     {%endfor%}
@@ -441,7 +441,7 @@
     <th style="border-bottom: 1px solid #dddddd;" scope="row">Imp</th>
     {%for alumno in alumnos%}
     {%for user, n in imp.items%}
-    {%if user|add:0 == alumno.username|add:0%}
+    {%if user == alumno.username %}
     {% if n >= 75 %}
     <td style="border: 1px solid #dddddd; color:#FF0000">{{n}}%</td>
     {% else %}
@@ -477,7 +477,7 @@
     <th scope="col">#</th>
     {%for alumno in alumnos%}
       {%for ini,alumnoini in initials.items%}
-      {%if alumno.username|add:0 == alumnoini.username|add:0%}
+      {%if alumno.username == alumnoini.username %}
       <th scope="col">{{ini}}</th>
       {%endif%}
       {%endfor%}
@@ -489,7 +489,7 @@
     <th scope="row">IN</th>
     {%for alumno in alumnos%}
     {%for user, n in in.items%}
-    {%if user|add:0 == alumno.username|add:0%}
+    {%if user == alumno.username %}
     {% if n >= inValue %}
     <td style="border: 1px solid #dddddd; color:#FF0000">{{n}}</td>
     {% else %}
@@ -503,7 +503,7 @@
     <th scope="row">IN val</th>
     {%for alumno in alumnos%}
     {%for user, n in inval.items%}
-    {%if user|add:0 == alumno.username|add:0%}
+    {%if user == alumno.username %}
     <td style="border: 1px solid #dddddd;">{{n}}</td>
     {%endif%}
     {%endfor%}
@@ -513,7 +513,7 @@
     <th style="border-bottom: 1px solid #dddddd;" scope="row">Imn</th>
     {%for alumno in alumnos%}
     {%for user, n in imn.items%}
-    {%if user|add:0 == alumno.username|add:0%}
+    {%if user == alumno.username %}
     {% if n >= 75 %}
     <td style="border: 1px solid #dddddd; color:#FF0000">{{n}}%</td>
     {% else %}
@@ -554,9 +554,9 @@
 
   {%for alumno in alumnos%}
   {%for ini,alumnoini in initials.items%}
-  {%if alumno.username|add:0 == alumnoini.username|add:0%}
+  {%if alumno.username == alumnoini.username %}
   {%for user, values in matrix34.items%}
-  {%if user|add:0 == alumnoini.username|add:0%}
+  {%if user == alumnoini.username %}
   <tr>
     <th scope="row">{{ini}}</th>
     {%for num1, nombre1 in title_matrix34.items%}
@@ -621,7 +621,7 @@
     <th scope="col">#</th>
     {%for alumno in alumnos%}
       {%for ini,alumnoini in initials.items%}
-      {%if alumno.username|add:0 == alumnoini.username|add:0%}
+      {%if alumno.username == alumnoini.username %}
       <th scope="col">{{ini}}</th>
       {%endif%}
       {%endfor%}
@@ -633,7 +633,7 @@
     <th style="border-bottom: 1px solid #dddddd;" scope="row">IPP</th>
     {%for alumno in alumnos%}
     {%for user, n in ipp.items%}
-    {%if user|add:0 == alumno.username|add:0%}
+    {%if user == alumno.username %}
     {%if n >= 75%}
     <td style="border: 1px solid #dddddd;color:#FF0000">{{n}}%</td>
     {%else%}
@@ -656,7 +656,7 @@
     <th scope="col">#</th>
     {%for alumno in alumnos%}
       {%for ini,alumnoini in initials.items%}
-      {%if alumno.username|add:0 == alumnoini.username|add:0%}
+      {%if alumno.username == alumnoini.username %}
       <th scope="col">{{ini}}</th>
       {%endif%}
       {%endfor%}
@@ -668,7 +668,7 @@
     <th style="border-bottom: 1px solid #dddddd;" scope="row">IPN</th>
     {%for alumno in alumnos%}
     {%for user, n in ipn.items%}
-    {%if user|add:0 == alumno.username|add:0%}
+    {%if user == alumno.username %}
     {%if n >= 75%}
     <td style="border: 1px solid #dddddd;color:#FF0000">{{n}}%</td>
     {%else%}

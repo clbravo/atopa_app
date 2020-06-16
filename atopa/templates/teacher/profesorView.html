@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="login-wrapper">
+        <h2>{% trans 'Bienvenido a Atopa'%}</h2>
+        <br>
+	<div class="bg-info" role="alert">
+                {% trans '¿Quiere cambiar su contraseña?'%} <a href="{%url 'password_change'%}"class="alert-link">Cámbiela</a>
+    </div>
+    <br>
+    <div class="bg-info" role="alert">
+        {%if eva%}
+            {% trans '¿Quiere dejar de participar en la evaluación de la aplicación Atopa?'%} <a href="{%url 'noevaluate'%}"class="alert-link">Dejar de participar</a>
+        {%else%}
+            {% trans '¿Quiere participar en la evaluación de la aplicación Atopa?'%} <a href="{%url 'evaluate'%}"class="alert-link">Participar</a>
+        {%endif%}
+    </div>
+        <br>
+</div>
+
+{% endblock %}

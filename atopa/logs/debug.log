@@ -3470,3 +3470,557 @@ ImportError: cannot import name 'smart_unicode'
 [27/May/2020 10:44:26] INFO [alumnos.views:48] 1
 [27/May/2020 11:02:16] INFO [resultados.services:19] Autenticacion en servidor
 [27/May/2020 11:02:16] ERROR [resultados.services:27] b'{"token":"e4f30379bc9f72c0546f287454b546e651da036f"}'
+[05/Jun/2020 01:00:08] ERROR [django.request:228] Internal Server Error: /resultados/testCompletoPdf/1/1
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/usr/local/lib/python3.6/dist-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "/atopa/atopa/resultados/views.py", line 4035, in show_results_complete
+    matrixaux[ma][useral.username][int(res)] = respuestasNum[ma][re][al][res]
+KeyError: '21'
+[05/Jun/2020 01:01:02] ERROR [django.request:228] Internal Server Error: /resultados/testCompletoPdf/1/1
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/usr/local/lib/python3.6/dist-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "/atopa/atopa/resultados/views.py", line 4035, in show_results_complete
+    matrixaux[ma][useral.username][int(res)] = respuestasNum[ma][re][al][res]
+KeyError: '21'
+[05/Jun/2020 01:01:30] ERROR [django.request:228] Internal Server Error: /resultados/testCompletoPdf/1/1
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/usr/local/lib/python3.6/dist-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "/atopa/atopa/resultados/views.py", line 4035, in show_results_complete
+    matrixaux[ma][useral.username][int(res)] = respuestasNum[ma][re][al][res]
+KeyError: '21'
+[05/Jun/2020 01:03:14] ERROR [django.request:228] Internal Server Error: /resultados/testCompletoPdf/1/1
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/usr/local/lib/python3.6/dist-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "/atopa/atopa/resultados/views.py", line 4035, in show_results_complete
+    matrixaux[ma][useral.username][int(res)] = respuestasNum[ma][re][al][res]
+KeyError: '21'
+[05/Jun/2020 01:04:46] ERROR [django.request:228] Internal Server Error: /resultados/testCompletoPdf/1/1
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/usr/local/lib/python3.6/dist-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "/atopa/atopa/resultados/views.py", line 4035, in show_results_complete
+    matrixaux[ma][useral.username][res] = respuestasNum[ma][re][al][res]
+KeyError: '21'
+[05/Jun/2020 01:04:48] ERROR [django.request:228] Internal Server Error: /resultados/testCompletoPdf/1/1
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/usr/local/lib/python3.6/dist-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "/atopa/atopa/resultados/views.py", line 4035, in show_results_complete
+    matrixaux[ma][useral.username][res] = respuestasNum[ma][re][al][res]
+KeyError: '21'
+[05/Jun/2020 01:07:33] WARNING [django.request:228] Not Found: /resultados
+[05/Jun/2020 01:11:35] ERROR [django.request:228] Internal Server Error: /resultados/testCompleto/22/1
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/django/template/smartif.py", line 175, in translate_token
+    op = OPERATORS[token]
+KeyError: 'alumno.username|add'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/usr/local/lib/python3.6/dist-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "/atopa/atopa/resultados/views.py", line 4093, in show_results_complete
+    'matrix34': matrix34, 'title_matrix34': titlematrix34, 'ipp': ipp, 'ipn': ipn, 'teacher': teacherProfile, 'testName': test.nombre, 'date': test.date_created.strftime('%d/%m/%Y %H:%M'), 'year': year, 'initials': alumnosInitials})
+  File "/usr/local/lib/python3.6/dist-packages/django/shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/backends/django.py", line 34, in get_template
+    return Template(self.engine.get_template(template_name), self)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/engine.py", line 143, in get_template
+    template, origin = self.find_template(template_name)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/engine.py", line 125, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/loaders/base.py", line 30, in get_template
+    contents, origin, origin.template_name, self.engine,
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 156, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 194, in compile_nodelist
+    return parser.parse()
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 477, in parse
+    raise self.error(token, e)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 475, in parse
+    compiled_result = compile_func(self, token)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/loader_tags.py", line 266, in do_extends
+    nodelist = parser.parse()
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 477, in parse
+    raise self.error(token, e)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 475, in parse
+    compiled_result = compile_func(self, token)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/loader_tags.py", line 209, in do_block
+    nodelist = parser.parse(('endblock',))
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 477, in parse
+    raise self.error(token, e)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 475, in parse
+    compiled_result = compile_func(self, token)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/defaulttags.py", line 811, in do_for
+    nodelist_loop = parser.parse(('empty', 'endfor',))
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 477, in parse
+    raise self.error(token, e)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 475, in parse
+    compiled_result = compile_func(self, token)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/defaulttags.py", line 811, in do_for
+    nodelist_loop = parser.parse(('empty', 'endfor',))
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 477, in parse
+    raise self.error(token, e)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 475, in parse
+    compiled_result = compile_func(self, token)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/defaulttags.py", line 811, in do_for
+    nodelist_loop = parser.parse(('empty', 'endfor',))
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 477, in parse
+    raise self.error(token, e)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 475, in parse
+    compiled_result = compile_func(self, token)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/defaulttags.py", line 811, in do_for
+    nodelist_loop = parser.parse(('empty', 'endfor',))
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 477, in parse
+    raise self.error(token, e)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 475, in parse
+    compiled_result = compile_func(self, token)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/defaulttags.py", line 951, in do_if
+    condition = TemplateIfParser(parser, bits).parse()
+  File "/usr/local/lib/python3.6/dist-packages/django/template/defaulttags.py", line 884, in __init__
+    super().__init__(*args, **kwargs)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/smartif.py", line 166, in __init__
+    mapped_tokens.append(self.translate_token(token))
+  File "/usr/local/lib/python3.6/dist-packages/django/template/smartif.py", line 177, in translate_token
+    return self.create_var(token)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/defaulttags.py", line 887, in create_var
+    return TemplateLiteral(self.template_parser.compile_filter(value), value)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 562, in compile_filter
+    return FilterExpression(token, self)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 657, in __init__
+    self.args_check(filter_name, filter_func, args)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 717, in args_check
+    (name, alen - dlen, plen))
+django.template.exceptions.TemplateSyntaxError: add requires 2 arguments, 1 provided
+[05/Jun/2020 01:11:54] ERROR [django.request:228] Internal Server Error: /resultados/testCompleto/22/1
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/django/template/smartif.py", line 175, in translate_token
+    op = OPERATORS[token]
+KeyError: 'alumno.username=='
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/usr/local/lib/python3.6/dist-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "/atopa/atopa/resultados/views.py", line 4093, in show_results_complete
+    'matrix34': matrix34, 'title_matrix34': titlematrix34, 'ipp': ipp, 'ipn': ipn, 'teacher': teacherProfile, 'testName': test.nombre, 'date': test.date_created.strftime('%d/%m/%Y %H:%M'), 'year': year, 'initials': alumnosInitials})
+  File "/usr/local/lib/python3.6/dist-packages/django/shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/backends/django.py", line 34, in get_template
+    return Template(self.engine.get_template(template_name), self)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/engine.py", line 143, in get_template
+    template, origin = self.find_template(template_name)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/engine.py", line 125, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/loaders/base.py", line 30, in get_template
+    contents, origin, origin.template_name, self.engine,
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 156, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 194, in compile_nodelist
+    return parser.parse()
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 477, in parse
+    raise self.error(token, e)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 475, in parse
+    compiled_result = compile_func(self, token)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/loader_tags.py", line 266, in do_extends
+    nodelist = parser.parse()
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 477, in parse
+    raise self.error(token, e)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 475, in parse
+    compiled_result = compile_func(self, token)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/loader_tags.py", line 209, in do_block
+    nodelist = parser.parse(('endblock',))
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 477, in parse
+    raise self.error(token, e)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 475, in parse
+    compiled_result = compile_func(self, token)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/defaulttags.py", line 811, in do_for
+    nodelist_loop = parser.parse(('empty', 'endfor',))
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 477, in parse
+    raise self.error(token, e)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 475, in parse
+    compiled_result = compile_func(self, token)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/defaulttags.py", line 811, in do_for
+    nodelist_loop = parser.parse(('empty', 'endfor',))
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 477, in parse
+    raise self.error(token, e)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 475, in parse
+    compiled_result = compile_func(self, token)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/defaulttags.py", line 811, in do_for
+    nodelist_loop = parser.parse(('empty', 'endfor',))
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 477, in parse
+    raise self.error(token, e)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 475, in parse
+    compiled_result = compile_func(self, token)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/defaulttags.py", line 811, in do_for
+    nodelist_loop = parser.parse(('empty', 'endfor',))
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 477, in parse
+    raise self.error(token, e)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 475, in parse
+    compiled_result = compile_func(self, token)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/defaulttags.py", line 951, in do_if
+    condition = TemplateIfParser(parser, bits).parse()
+  File "/usr/local/lib/python3.6/dist-packages/django/template/defaulttags.py", line 884, in __init__
+    super().__init__(*args, **kwargs)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/smartif.py", line 166, in __init__
+    mapped_tokens.append(self.translate_token(token))
+  File "/usr/local/lib/python3.6/dist-packages/django/template/smartif.py", line 177, in translate_token
+    return self.create_var(token)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/defaulttags.py", line 887, in create_var
+    return TemplateLiteral(self.template_parser.compile_filter(value), value)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 562, in compile_filter
+    return FilterExpression(token, self)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 662, in __init__
+    "from '%s'" % (token[upto:], token))
+django.template.exceptions.TemplateSyntaxError: Could not parse the remainder: '==' from 'alumno.username=='
+[05/Jun/2020 01:12:20] ERROR [django.request:228] Internal Server Error: /resultados/testCompleto/22/1
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 469, in parse
+    compile_func = self.tags[command]
+KeyError: 'endif'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/usr/local/lib/python3.6/dist-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "/atopa/atopa/resultados/views.py", line 4093, in show_results_complete
+    'matrix34': matrix34, 'title_matrix34': titlematrix34, 'ipp': ipp, 'ipn': ipn, 'teacher': teacherProfile, 'testName': test.nombre, 'date': test.date_created.strftime('%d/%m/%Y %H:%M'), 'year': year, 'initials': alumnosInitials})
+  File "/usr/local/lib/python3.6/dist-packages/django/shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/backends/django.py", line 34, in get_template
+    return Template(self.engine.get_template(template_name), self)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/engine.py", line 143, in get_template
+    template, origin = self.find_template(template_name)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/engine.py", line 125, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/loaders/base.py", line 30, in get_template
+    contents, origin, origin.template_name, self.engine,
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 156, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 194, in compile_nodelist
+    return parser.parse()
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 477, in parse
+    raise self.error(token, e)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 475, in parse
+    compiled_result = compile_func(self, token)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/loader_tags.py", line 266, in do_extends
+    nodelist = parser.parse()
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 477, in parse
+    raise self.error(token, e)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 475, in parse
+    compiled_result = compile_func(self, token)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/loader_tags.py", line 209, in do_block
+    nodelist = parser.parse(('endblock',))
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 477, in parse
+    raise self.error(token, e)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 475, in parse
+    compiled_result = compile_func(self, token)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/defaulttags.py", line 811, in do_for
+    nodelist_loop = parser.parse(('empty', 'endfor',))
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 477, in parse
+    raise self.error(token, e)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 475, in parse
+    compiled_result = compile_func(self, token)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/defaulttags.py", line 811, in do_for
+    nodelist_loop = parser.parse(('empty', 'endfor',))
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 477, in parse
+    raise self.error(token, e)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 475, in parse
+    compiled_result = compile_func(self, token)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/defaulttags.py", line 811, in do_for
+    nodelist_loop = parser.parse(('empty', 'endfor',))
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 477, in parse
+    raise self.error(token, e)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 475, in parse
+    compiled_result = compile_func(self, token)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/defaulttags.py", line 811, in do_for
+    nodelist_loop = parser.parse(('empty', 'endfor',))
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 471, in parse
+    self.invalid_block_tag(token, command, parse_until)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 527, in invalid_block_tag
+    get_text_list(["'%s'" % p for p in parse_until], 'or'),
+django.template.exceptions.TemplateSyntaxError: Invalid block tag on line 90: 'endif', expected 'empty' or 'endfor'. Did you forget to register or load this tag?
+[05/Jun/2020 01:12:44] ERROR [django.request:228] Internal Server Error: /resultados/testCompleto/22/1
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/django/template/smartif.py", line 175, in translate_token
+    op = OPERATORS[token]
+KeyError: 'alumno.username=='
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/usr/local/lib/python3.6/dist-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "/atopa/atopa/resultados/views.py", line 4093, in show_results_complete
+    'matrix34': matrix34, 'title_matrix34': titlematrix34, 'ipp': ipp, 'ipn': ipn, 'teacher': teacherProfile, 'testName': test.nombre, 'date': test.date_created.strftime('%d/%m/%Y %H:%M'), 'year': year, 'initials': alumnosInitials})
+  File "/usr/local/lib/python3.6/dist-packages/django/shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/backends/django.py", line 34, in get_template
+    return Template(self.engine.get_template(template_name), self)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/engine.py", line 143, in get_template
+    template, origin = self.find_template(template_name)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/engine.py", line 125, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/loaders/base.py", line 30, in get_template
+    contents, origin, origin.template_name, self.engine,
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 156, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 194, in compile_nodelist
+    return parser.parse()
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 477, in parse
+    raise self.error(token, e)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 475, in parse
+    compiled_result = compile_func(self, token)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/loader_tags.py", line 266, in do_extends
+    nodelist = parser.parse()
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 477, in parse
+    raise self.error(token, e)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 475, in parse
+    compiled_result = compile_func(self, token)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/loader_tags.py", line 209, in do_block
+    nodelist = parser.parse(('endblock',))
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 477, in parse
+    raise self.error(token, e)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 475, in parse
+    compiled_result = compile_func(self, token)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/defaulttags.py", line 811, in do_for
+    nodelist_loop = parser.parse(('empty', 'endfor',))
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 477, in parse
+    raise self.error(token, e)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 475, in parse
+    compiled_result = compile_func(self, token)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/defaulttags.py", line 811, in do_for
+    nodelist_loop = parser.parse(('empty', 'endfor',))
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 477, in parse
+    raise self.error(token, e)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 475, in parse
+    compiled_result = compile_func(self, token)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/defaulttags.py", line 811, in do_for
+    nodelist_loop = parser.parse(('empty', 'endfor',))
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 477, in parse
+    raise self.error(token, e)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 475, in parse
+    compiled_result = compile_func(self, token)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/defaulttags.py", line 811, in do_for
+    nodelist_loop = parser.parse(('empty', 'endfor',))
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 477, in parse
+    raise self.error(token, e)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 475, in parse
+    compiled_result = compile_func(self, token)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/defaulttags.py", line 951, in do_if
+    condition = TemplateIfParser(parser, bits).parse()
+  File "/usr/local/lib/python3.6/dist-packages/django/template/defaulttags.py", line 884, in __init__
+    super().__init__(*args, **kwargs)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/smartif.py", line 166, in __init__
+    mapped_tokens.append(self.translate_token(token))
+  File "/usr/local/lib/python3.6/dist-packages/django/template/smartif.py", line 177, in translate_token
+    return self.create_var(token)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/defaulttags.py", line 887, in create_var
+    return TemplateLiteral(self.template_parser.compile_filter(value), value)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 562, in compile_filter
+    return FilterExpression(token, self)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 662, in __init__
+    "from '%s'" % (token[upto:], token))
+django.template.exceptions.TemplateSyntaxError: Could not parse the remainder: '==' from 'alumno.username=='
+[05/Jun/2020 01:19:08] ERROR [django.request:228] Internal Server Error: /resultados/testCompletoPdf/22/1
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/usr/local/lib/python3.6/dist-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "/atopa/atopa/resultados/views.py", line 3443, in show_results_complete
+    if int(student) == alumnosInitials[a].username:
+ValueError: invalid literal for int() with base 10: '13-1'
+[16/Jun/2020 13:48:59] ERROR [django.request:228] Internal Server Error: /cuestionarios/1
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/usr/local/lib/python3.6/dist-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "/atopa/atopa/cuestionarios/views.py", line 70, in ListAll
+    return render(request, 'cuestionarios/test_list.html', {"info": info, 'confirm': confirm, 'confirmUp':confirmUp, 'no': no, 'year': int(id), 'eva': teacherprofile.evaluacion})
+  File "/usr/local/lib/python3.6/dist-packages/django/shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 936, in render
+    bit = node.render_annotated(context)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 903, in render_annotated
+    return self.render(context)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/loader_tags.py", line 150, in render
+    return compiled_parent._render(context)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 936, in render
+    bit = node.render_annotated(context)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 903, in render_annotated
+    return self.render(context)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/defaulttags.py", line 309, in render
+    return nodelist.render(context)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 936, in render
+    bit = node.render_annotated(context)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 903, in render_annotated
+    return self.render(context)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/defaulttags.py", line 309, in render
+    return nodelist.render(context)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 936, in render
+    bit = node.render_annotated(context)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/base.py", line 903, in render_annotated
+    return self.render(context)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/defaulttags.py", line 443, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/usr/local/lib/python3.6/dist-packages/django/urls/base.py", line 87, in reverse
+    return iri_to_uri(resolver._reverse_with_prefix(view, prefix, *args, **kwargs))
+  File "/usr/local/lib/python3.6/dist-packages/django/urls/resolvers.py", line 677, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'signin' not found. 'signin' is not a valid view function or pattern name.
+[16/Jun/2020 17:11:41] ERROR [django.request:228] Internal Server Error: /teacherAccount/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/usr/local/lib/python3.6/dist-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+TypeError: account() missing 1 required positional argument: 'id'
+[16/Jun/2020 17:12:25] ERROR [django.request:228] Internal Server Error: /teacherAccount/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/usr/local/lib/python3.6/dist-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "/atopa/atopa/teacher/views.py", line 60, in account
+    return render(request, 'teacher/account.html', {'eva': teacherProfile.evaluacion})
+  File "/usr/local/lib/python3.6/dist-packages/django/shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/loader.py", line 19, in get_template
+    raise TemplateDoesNotExist(template_name, chain=chain)
+django.template.exceptions.TemplateDoesNotExist: teacher/account.html
+[16/Jun/2020 17:13:48] ERROR [django.request:228] Internal Server Error: /evaluate/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/usr/local/lib/python3.6/dist-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "/atopa/atopa/teacher/views.py", line 84, in evaluate
+    {'form': form})
+  File "/usr/local/lib/python3.6/dist-packages/django/shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "/usr/local/lib/python3.6/dist-packages/django/template/loader.py", line 19, in get_template
+    raise TemplateDoesNotExist(template_name, chain=chain)
+django.template.exceptions.TemplateDoesNotExist: teacher/evaluate.html
+[16/Jun/2020 17:33:29] WARNING [django.security.csrf:228] Forbidden (CSRF token missing or incorrect.): /evaluate/
+[16/Jun/2020 17:33:51] INFO [teacher.views:78] teacher/account.html
+[16/Jun/2020 17:36:33] INFO [teacher.views:78] teacher/account.html
+[16/Jun/2020 17:54:14] WARNING [django.security.csrf:228] Forbidden (CSRF token missing or incorrect.): /evaluate/
