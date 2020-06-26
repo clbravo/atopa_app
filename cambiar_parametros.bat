@@ -83,7 +83,6 @@ set "adapter=Ethernet Ethernet"
 :next
 set adapterfound=false
 set iplocal=""
-echo Network Connection Test
 for /f "usebackq tokens=1-2 delims=:" %%f in (`ipconfig`) do (
     set "item=%%f"
     if /i not "x!item:%adapter%=!"=="x!item!" (
