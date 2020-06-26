@@ -246,7 +246,9 @@ def importar_alumnos(request, year):
                 newAlumno.nombre = row['NOMBRE']
                 newAlumno.apellidos = row['APELLIDO1'] + " " + row['APELLIDO2']
                 newAlumno.alias = newAlumno.nombre + " " + newAlumno.apellidos[0:2]
-                newAlumno.DNI = row['DNI']
+                if row['DNI']:
+                    if row['DNI'] != "":
+                        newAlumno.DNI = row['DNI']
                 date = row['FECHA-NACIMIENTO'].split('/')
                 newAlumno.fecha_nacimiento = date[2] + '-' + date[1] + '-' + date[0]
                 newAlumno.clase_id_id = request.GET.get('clase')

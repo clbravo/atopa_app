@@ -102,11 +102,19 @@ def delete_from_server(cuestionario, form, delete):
     result_json = json.loads(result.content)
     token = result_json.get('token')
 
-    requests.delete(
-        "https://{0}:{1}/api/test/".format(settings.SERVER_IP, settings.SERVER_PORT),
-        data={"nombre": cuestionario.nombre},
-        headers={'Accept': 'application/json',
-                 'Authorization': 'Token {}'.format(token)}, verify=False)
+    if cuestionario.first:
+        requests.delete(
+            "https://{0}:{1}/api/test/".format(settings.SERVER_IP, settings.SERVER_PORT),
+            data={"nombre": cuestionario.nombre, "survey": cuestionario.survey2},
+            headers={'Accept': 'application/json',
+                    'Authorization': 'Token {}'.format(token)}, verify=False)
+    else:
+        requests.delete(
+            "https://{0}:{1}/api/test/".format(settings.SERVER_IP, settings.SERVER_PORT),
+            data={"nombre": cuestionario.nombre, "survey": cuestionario.survey1},
+            headers={'Accept': 'application/json',
+                    'Authorization': 'Token {}'.format(token)}, verify=False)
+
     if not delete:
         cuestionario.closed = True
         cuestionario.save()
@@ -114,24 +122,14 @@ def delete_from_server(cuestionario, form, delete):
 def send_survey1_server(cuestionario, form):
 
     if not cuestionario.closed:
-        if cuestionario.first:
-            result = requests.post(
-            "https://193.146.210.219:5050/AtopaServer/api/test",
-            json={"id": cuestionario.remote_id, "first": cuestionario.first.id},
-            headers={'Accept': 'application/json',
-                    'Authorization': 'Basic YXRvcGFhcHA6YXRvcGExMjNhcHA='}, verify=False)
-            log.info(result.content)
-            if result.status_code != 200:
-                return 1
-        else:
-            result = requests.post(
-            "https://193.146.210.219:5050/AtopaServer/api/test",
-            json={"id": cuestionario.remote_id},
-            headers={'Accept': 'application/json',
-                    'Authorization': 'Basic YXRvcGFhcHA6YXRvcGExMjNhcHA='}, verify=False)
-            log.info(result.content)
-            if result.status_code != 200:
-                return 1
+        result = requests.post(
+        "https://193.146.210.219:5050/AtopaServer/api/test",
+        json={"id": cuestionario.remote_id},
+        headers={'Accept': 'application/json',
+                'Authorization': 'Basic YXRvcGFhcHA6YXRvcGExMjNhcHA='}, verify=False)
+        log.info(result.content)
+        if result.status_code != 200:
+            return 1
     
     result = requests.post(
         "https://193.146.210.219:5050/AtopaServer/api/encuesta1",
@@ -148,6 +146,17 @@ def send_survey1_server(cuestionario, form):
     cuestionario.save()
 
 def send_survey2_server(cuestionario, form):
+
+    if not cuestionario.closed:
+        if cuestionario.first:
+            result = requests.post(
+            "https://193.146.210.219:5050/AtopaServer/api/test",
+            json={"id": cuestionario.remote_id, "first": cuestionario.first.remote_id},
+            headers={'Accept': 'application/json',
+                    'Authorization': 'Basic YXRvcGFhcHA6YXRvcGExMjNhcHA='}, verify=False)
+            log.info(result.content)
+            if result.status_code != 200:
+                return 1
 
     result = requests.post(
         "https://193.146.210.219:5050/AtopaServer/api/encuesta2", #193.146.210.219:5050

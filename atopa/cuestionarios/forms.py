@@ -87,7 +87,7 @@ class Survey2Form(forms.Form):
     answer7 = forms.ChoiceField(required=True, choices=choices4, widget=forms.RadioSelect())
     answer8 = forms.ChoiceField(required=True, choices=choices4, widget=forms.RadioSelect())
     answer9 = forms.CharField(required=False, max_length=200, widget=forms.Textarea(attrs={"rows":8, "cols":45}))
-    answer10 = forms.CharField(required=True, max_length=200, widget=forms.Textarea(attrs={"rows":8, "cols":45}))
+    answer10 = forms.CharField(required=False, max_length=200, widget=forms.Textarea(attrs={"rows":8, "cols":45}))
     choices5 = ((gettext('Sí'), gettext('Sí')), (gettext('No'), gettext('No')))
     answer11 = forms.ChoiceField(required=True, choices=choices5, widget=forms.RadioSelect())
     answer12 = forms.ChoiceField(required=True, choices=choices4, widget=forms.RadioSelect())
@@ -98,7 +98,7 @@ class Survey2Form(forms.Form):
     answer16 = forms.ChoiceField(required=True, choices=choices6, widget=forms.RadioSelect())
     choices6 = ((1,1), (2,2), (3,3), (4,4), (5,5), (6,6), (7,7), (8,8), (9,9), (10,10))
     answer17 = forms.ChoiceField(required=True, choices=choices6, widget=forms.RadioSelect())
-    answer18 = forms.CharField(required=True, max_length=200, widget=forms.Textarea(attrs={"rows":8, "cols":45}))
+    answer18 = forms.CharField(required=False, max_length=200, widget=forms.Textarea(attrs={"rows":8, "cols":45}))
     choices7 = ((0,0), (1,1), (2,2), (3,3), (4,4), (5,5), (6,6), (7,7), (8,8), (9,9), (10,10))
     answer19 = forms.ChoiceField(required=True, choices=choices7, widget=forms.RadioSelect())
 

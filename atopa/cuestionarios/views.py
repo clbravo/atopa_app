@@ -111,7 +111,9 @@ def survey1(request, id, year):
         form = Survey1Form(request.POST)
         try:
             if form.is_valid():
-                send_survey1_server(quiz, form)
+                problem = send_survey1_server(quiz, form)
+                if problem == 1:
+                    return noserver(request,year)
                 return HttpResponseRedirect(reverse('testlist', kwargs={'id':int(year)}))
         except Exception as e:
             log.info(e)
@@ -130,7 +132,9 @@ def survey2(request, id, year):
         form = Survey2Form(request.POST)
         try:
             if form.is_valid():
-                send_survey2_server(quiz, form)
+                problem = send_survey2_server(quiz, form)
+                if problem == 1:
+                    return noserver(request,year)
                 return HttpResponseRedirect(reverse('testlist', kwargs={'id':int(year)}))
         except Exception as e:
             log.info(e)

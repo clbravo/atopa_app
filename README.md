@@ -36,60 +36,67 @@ El directorio atopa_app incluye todo el entorno que utiliza la aplicación, incl
 En la carpeta de logs se irán mostrando todos los mensajes de la aplicación, solo se generan mensajes para debug de la app.
 
 Y la carpeta atopa_app/ es la raíz de nuestra aplicación.
-Dentro de ella podemos encontrar en cada carpeta cada una de las apps que forman la app principal. Se ha dividido en 4 apps: teacher, alumnos, cuestionarios y resultados. La app mysite es donde se encuentran configuraciones generales de la app
+Dentro de ella podemos encontrar en cada carpeta cada una de las apps que forman la app principal. Se ha dividido en 4 apps: teacher, alumnos, cuestionarios y resultados. La app mysite es donde se encuentran configuraciones generales de la app.
 
 ## Pasos de instalación
 
 ## Instalación en Linux o MAC OS
 1. Es necesario instarlar docker y docker-compose
-2. Descargar y ejecutar el archivo instalador_atopa_app.sh. 
+2. Es necesario instalar openssl
+3. Descargar y ejecutar el archivo instalador_atopa_app.sh. 
 ```	
 	./instalador_atopa_app.sh <clave_base_datos> <ip_servidor> <puerto_servidor> <ip_local>
 ```
 
 Versiones usadas: 
 ```
-Django==1.11.20
-requests==2.21.0
+Django==3.0.6
+requests==2.23.0
 MySQL-python==1.2.5
-django-bootstrap4
-django-mysql==2.5.0
-django-octicons
-django-crispy-forms==1.7.2
-django_bootstrap_breadcrumbs
-reportlab
-django-widget-tweaks
-gunicorn
+django-bootstrap4==1.1.1
+django-mysql==3.5.0
+django-octicons==1.0.2
+django-crispy-forms==1.9.1
+django_bootstrap_breadcrumbs==0.9.2
+reportlab==3.5.42
+django-widget-tweaks==1.4.8
+gunicorn==20.0.4
 ```
 
 ## Instalación en Windows
 
-1. Es necesario instalar una máquina virtual con sistema operativa Linux 
-2. En la máquina virtual es necesario instarlar docker y docker-compose
-3. En la máquina virual, descargar y ejecutar el archivo instalador_atopa_app.sh. 
+1. Es necesario instalar Docker Desktop
+2. Es necesario instalar openssl
+3. Descargar y ejecutar el archivo instalador_atopa_app_windows.bat
+4. Si es necesario, edita la línea en la que se hace la llamada a openssl.exe, para que la ruta sea la correcta en tu equipo
 ```
 	./instalador_atopa_app.sh <clave_base_datos> <ip_servidor> <puerto_servidor> <ip_local>
 ```
 
 Versiones usadas: 
 ```
-Django==1.11.20
-requests==2.21.0
+Django==3.0.6
+requests==2.23.0
 MySQL-python==1.2.5
-django-bootstrap4
-django-mysql==2.5.0
-django-octicons
-django-crispy-forms==1.7.2
-django_bootstrap_breadcrumbs
-reportlab
-django-widget-tweaks
-gunicorn
+django-bootstrap4==1.1.1
+django-mysql==3.5.0
+django-octicons==1.0.2
+django-crispy-forms==1.9.1
+django_bootstrap_breadcrumbs==0.9.2
+reportlab==3.5.42
+django-widget-tweaks==1.4.8
+gunicorn==20.0.4
 ```
 
-## Ejecución de la aplicación:
+## Ejecución de la aplicación en Linux o Mac OS:
 ```
 cd atopa_app
 ./ejecutar_atopa_app.sh <ip_local> 
+```
+
+## Ejecución de la aplicación en Windows:
+```
+Descargar y ejecutar el archivo ejecutar_atopa_app_windows.bat. 
 ```
 
 ## Desarrolladores

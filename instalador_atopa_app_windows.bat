@@ -67,4 +67,5 @@ echo IF ^"%%1^"==^"clean-migrations^" (find . -path ^'*/migrations/*.pyc^'  -del
 echo IF ^"%%1^"==^"db-shell^" (docker exec -it atopa_db mysql -h db -u root -p%ATOPA_APP_PASS%) >> comandos.bat
 
 docker-compose build
+docker-compose up -d
 set /p=Hit Instalación finalizada correctamente. Pulse ENTER para salir...
