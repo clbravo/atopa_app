@@ -2149,17 +2149,17 @@ def get_proposals(sp, np, nn, sn, spval, snval, imp, ipval, imn, inval, iN, ip, 
             recommendations['ID'][3][ugettext('Grupo y aula')][3][ugettext('Trabajo colaborativo y cooperativo')][ugettext('Grupo')].append(ugettext('El índice de disociación (ID) es alto.'))
             recommendations['ID'][3][ugettext('Grupo y aula')][3][ugettext('Trabajo colaborativo y cooperativo')][ugettext('Grupo')].append(ugettext('Se recomienda trabajar esta categoría en grupos donde se observen configuraciones sociométricas de grupos enfrentados.'))
 
-            if ugettext('Grupo') not in recommendations['ID'][2][ugettext('Educación en valores')][3][ugettext('Solidaridad')]:
-                recommendations['ID'][2][ugettext('Educación en valores')][3][ugettext('Solidaridad')][ugettext('Grupo')] = []
-                recommendations['ID'][2][ugettext('Educación en valores')][3][ugettext('Solidaridad')][ugettext('Grupo')].append(URL + etapa +"/" + Link.objects.get(name="Educación en valores").url + "/" + etapa.split('_')[1] + "_" + Link.objects.get(name="Solidaridad").url + '.php')
-            recommendations['ID'][2][ugettext('Educación en valores')][3][ugettext('Solidaridad')][ugettext('Grupo')].append(ugettext('El índice de disociación (ID) es alto.'))
-            recommendations['ID'][2][ugettext('Educación en valores')][3][ugettext('Solidaridad')][ugettext('Grupo')].append(ugettext('Se recomienda trabajar esta categoría en grupos en los que puedan existir desequilibrios socioeconómicos.'))
+            if ugettext('Grupo') not in recommendations['ID'][2][ugettext('Educación en valores')][2][ugettext('Solidaridad')]:
+                recommendations['ID'][2][ugettext('Educación en valores')][2][ugettext('Solidaridad')][ugettext('Grupo')] = []
+                recommendations['ID'][2][ugettext('Educación en valores')][2][ugettext('Solidaridad')][ugettext('Grupo')].append(URL + etapa +"/" + Link.objects.get(name="Educación en valores").url + "/" + etapa.split('_')[1] + "_" + Link.objects.get(name="Solidaridad").url + '.php')
+            recommendations['ID'][2][ugettext('Educación en valores')][2][ugettext('Solidaridad')][ugettext('Grupo')].append(ugettext('El índice de disociación (ID) es alto.'))
+            recommendations['ID'][2][ugettext('Educación en valores')][2][ugettext('Solidaridad')][ugettext('Grupo')].append(ugettext('Se recomienda trabajar esta categoría en grupos en los que puedan existir desequilibrios socioeconómicos.'))
 
-            if ugettext('Grupo') not in recommendations["ID"][1][ugettext('Educación en valores')][1][ugettext('Interculturalidad')]:
-                recommendations["ID"][1][ugettext('Educación en valores')][1][ugettext('Interculturalidad')][ugettext('Grupo')] = []
-                recommendations["ID"][1][ugettext('Educación en valores')][1][ugettext('Interculturalidad')][ugettext('Grupo')].append(URL + etapa +"/" + Link.objects.get(name="Educación en valores").url + "/" + etapa.split('_')[1] + "_" + Link.objects.get(name="Interculturalidad").url + '.php')
-            recommendations["ID"][1][ugettext('Educación en valores')][1][ugettext('Interculturalidad')][ugettext('Grupo')].append(ugettext('El índice de disociación (ID) es alto.'))
-            recommendations["ID"][1][ugettext('Educación en valores')][1][ugettext('Interculturalidad')][ugettext('Grupo')].append(ugettext('Se recomienda trabajar esta categoría en grupos en los que se dé la circunstancia de la multiculturalidad (raza, etnia, religión, etc.).'))
+            if ugettext('Grupo') not in recommendations['ID'][2][ugettext('Educación en valores')][1][ugettext('Interculturalidad')]:
+                recommendations["ID"][2][ugettext('Educación en valores')][1][ugettext('Interculturalidad')][ugettext('Grupo')] = []
+                recommendations["ID"][2][ugettext('Educación en valores')][1][ugettext('Interculturalidad')][ugettext('Grupo')].append(URL + etapa +"/" + Link.objects.get(name="Educación en valores").url + "/" + etapa.split('_')[1] + "_" + Link.objects.get(name="Interculturalidad").url + '.php')
+            recommendations["ID"][2][ugettext('Educación en valores')][1][ugettext('Interculturalidad')][ugettext('Grupo')].append(ugettext('El índice de disociación (ID) es alto.'))
+            recommendations["ID"][2][ugettext('Educación en valores')][1][ugettext('Interculturalidad')][ugettext('Grupo')].append(ugettext('Se recomienda trabajar esta categoría en grupos en los que se dé la circunstancia de la multiculturalidad (raza, etnia, religión, etc.).'))
 
 
     if alumnoCurrent != '':
