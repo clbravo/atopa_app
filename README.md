@@ -50,7 +50,7 @@ Dentro de ella podemos encontrar en cada carpeta cada una de las apps que forman
 
 Versiones usadas: 
 ```
-Django==3.0.6
+Django==3.1.12
 requests==2.23.0
 MySQL-python==1.2.5
 django-bootstrap4==1.1.1
@@ -75,7 +75,7 @@ gunicorn==20.0.4
 
 Versiones usadas: 
 ```
-Django==3.0.6
+Django==3.1.12
 requests==2.23.0
 MySQL-python==1.2.5
 django-bootstrap4==1.1.1
