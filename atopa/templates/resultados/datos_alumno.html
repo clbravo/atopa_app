@@ -75,7 +75,7 @@
 <h3>{% trans 'Pregunta' %} #{{num}}.- {{preguntas|return_tipo_pregunta:num}} ({%trans 'Tipo' %} {{num}})</h3>
 <h4>{{preguntas|return_pregunta:num}}</h4>
 {%for user, answers in question.items%}
-{%if user|add:0 == alumnoUsername|add:0%}
+{%if user == alumnoUsername%}
 <table class="table">
     <thead>
     <tr>
