@@ -1,4 +1,4 @@
-Django==4.2.26
+Django==4.2.27
 requests==2.32.4
 django-bootstrap4==1.1.1
 django-mysql==3.5.0
